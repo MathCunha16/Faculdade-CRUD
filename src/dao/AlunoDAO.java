@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,35 +197,84 @@ public class AlunoDAO {
 	            throw new DbException("Erro ao atualizar CPF: " + e.getMessage());
 	        }
 	    }
+	    
+	    public boolean existeCpf(String cpf) {
+	        String sql = "SELECT COUNT(*) FROM aluno WHERE cpf = ?";
+	        try (Connection conn = DB.getConnection(); 
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	public int gerarNovaMatricula() {
-		try (Connection conn = DB.getConnection();
-				PreparedStatement ps = conn.prepareStatement("SELECT MAX(matricula) FROM aluno");
-				ResultSet rs = ps.executeQuery()) {
+	            ps.setString(1, cpf);
+	            
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if (rs.next()) {
+	                    return rs.getInt(1) > 0; // Retorna true se já existir
+	                }
+	            }
+	            
+	        } catch (SQLException e) {
+	            throw new DbException("Erro ao verificar CPF: " + e.getMessage());
+	        }
+	        return false;
+	    }
+	    
+	    public boolean existeCpfParaOutroAluno(String cpf, int matriculaAtual) { // fiz esse pro caso dele querer editar ele mesmo
+	        String sql = "SELECT COUNT(*) FROM aluno WHERE cpf = ? AND matricula != ?";
+	        
+	        try (Connection conn = DB.getConnection(); 
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            
+	            ps.setString(1, cpf);
+	            ps.setInt(2, matriculaAtual);
+	            
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if (rs.next()) {
+	                    return rs.getInt(1) > 0; // True se outro aluno tiver o CPF
+	                }
+	            }
+	            
+	        } catch (SQLException e) {
+	            throw new DbException("Erro ao verificar CPF: " + e.getMessage());
+	        }
+	        
+	        return false;
+	    }
 
-			// consulta SQL para pegar a maior matricula cadastrada
-			int anoAtual = java.time.Year.now().getValue();
+	    public int gerarNovaMatricula() {
+	        try (Connection conn = DB.getConnection()) {
+	            conn.setAutoCommit(false); 
 
-			// começa o sequencial em 1 por padrão (caso ñ tenha nenhuma matricula ainda)
-			int sequencial = 1;
+	            try (PreparedStatement ps = conn.prepareStatement(
+	                    "SELECT ultima_matricula FROM controle_matricula FOR UPDATE");
+	                 ResultSet rs = ps.executeQuery()) {
 
-			if (rs.next()) {
-				int ultimaMatricula = rs.getInt(1);
+	                int anoAtual = Year.now().getValue();
+	                int novaMatricula = anoAtual * 1000000 + 1; 
 
-				// extrai os 4 primeiros digitos da matricula (ex: 2025)
-				int anoMatricula = ultimaMatricula / 1000000;
+	                if (rs.next()) {
+	                    int ultimaMatricula = rs.getInt("ultima_matricula");
+	                    int anoUltima = ultimaMatricula / 1000000;
 
-				if (anoMatricula == anoAtual) {
-					// se a matricula for do mesmo ano atual
-					sequencial = (ultimaMatricula % 1000000) + 1;
-				}
-			}
+	                    if (anoUltima == anoAtual) {
+	                        novaMatricula = ultimaMatricula + 1;
+	                    }
+	                }
 
-			// retorna a nova matricula no formato: ano + sequencial com 4 dígitos
-			return Integer.parseInt(anoAtual + String.format("%06d", sequencial));
+	                try (PreparedStatement psUpdate = conn.prepareStatement(
+	                        "UPDATE controle_matricula SET ultima_matricula = ?")) {
+	                    psUpdate.setInt(1, novaMatricula);
+	                    psUpdate.executeUpdate();
+	                }
 
-		} catch (SQLException e) {
-			throw new DbException("Erro ao gerar matrícula: " + e.getMessage());
-		}
-	}
+	                conn.commit();
+	                return novaMatricula;
+
+	            } catch (SQLException e) {
+	                conn.rollback();
+	                throw new DbException("Erro ao gerar matrícula: " + e.getMessage());
+	            }
+
+	        } catch (SQLException e) {
+	            throw new DbException("Erro ao gerar matrícula: " + e.getMessage());
+	        }
+	    }
 }
