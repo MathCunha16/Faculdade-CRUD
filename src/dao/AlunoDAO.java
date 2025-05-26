@@ -17,7 +17,7 @@ import model.Curso;
 public class AlunoDAO {
 
 	public void inserirDados(Aluno aluno) { // INSERT
-		String sql = "INSERT INTO aluno (matricula, nome, telefone, data_de_nascimento, curso, cpf)"
+		String sql = "INSERT INTO aluno (matricula, nome, telefone, data_de_nascimento, id_curso, cpf)"
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -26,7 +26,7 @@ public class AlunoDAO {
 			stmt.setString(2, aluno.getNome());
 			stmt.setString(3, aluno.getTelefone());
 			stmt.setDate(4, java.sql.Date.valueOf(aluno.getDataDeNascimento()));
-			stmt.setString(5, aluno.getCurso().name());
+			stmt.setInt(5, aluno.getCurso().getId());
 			stmt.setString(6, aluno.getCpf());
 
 			stmt.executeUpdate();
@@ -36,70 +36,95 @@ public class AlunoDAO {
 		}
 	}
 
-	public List<Aluno> listarAlunos() { // SELECT
-		String sql = "SELECT * FROM faculdade.aluno";
-		List<Aluno> alunos = new ArrayList<>();
+	public List<Aluno> listarAlunos() {
+	    String sql = "SELECT a.*, c.nome AS nome_curso FROM aluno a " 
+	               + "INNER JOIN curso c ON a.id_curso = c.id"; // JOIN com curso
 
-		try (Connection conn = DB.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);
-				ResultSet rs = stmt.executeQuery()) {
+	    List<Aluno> alunos = new ArrayList<>();
 
-			while (rs.next()) {
-				alunos.add(new Aluno(rs.getInt("id"), rs.getInt("matricula"), rs.getString("nome"),
-						rs.getString("telefone"), rs.getDate("data_de_nascimento").toLocalDate(),
-						Curso.fromString(rs.getString("curso")), rs.getString("CPF")));
-			}
-		} catch (SQLException e) {
-			throw new DbException("Erro ao consultar histórico: " + e.getMessage());
-		}
-		return alunos;
+	    try (Connection conn = DB.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            // Cria objeto Curso com dados do banco
+	            Curso curso = new Curso();
+	            curso.setId(rs.getInt("id_curso"));
+	            curso.setNome(rs.getString("nome_curso"));
+
+	            alunos.add(new Aluno(
+	                rs.getInt("id"),
+	                rs.getInt("matricula"),
+	                rs.getString("nome"),
+	                rs.getString("telefone"),
+	                rs.getDate("data_de_nascimento").toLocalDate(),
+	                curso, // Objeto Curso carregado
+	                rs.getString("CPF")
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        throw new DbException("Erro ao listar alunos: " + e.getMessage());
+	    }
+	    return alunos;
 	}
 
 	public Aluno buscarPorMatricula(int matricula) {
-		String sql = "SELECT * FROM aluno WHERE matricula = ?";
+		String sql = "SELECT a.*, c.id AS curso_id, c.nome AS curso_nome FROM aluno a "
+		           + "JOIN curso c ON a.id_curso = c.id WHERE a.matricula = ?";
+
 		Aluno aluno = null;
 
 		try (Connection conn = DB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
 			stmt.setInt(1, matricula);
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-					aluno = new Aluno(rs.getInt("id"), rs.getInt("matricula"), rs.getString("nome"),
-							rs.getString("telefone"), rs.getDate("data_de_nascimento").toLocalDate(),
-							Curso.fromString(rs.getString("curso")), rs.getString("CPF"));
+					Curso curso = new Curso(rs.getInt("curso_id"), rs.getString("curso_nome"));
+					aluno = new Aluno(
+						rs.getInt("id"),
+						rs.getInt("matricula"),
+						rs.getString("nome"),
+						rs.getString("telefone"),
+						rs.getDate("data_de_nascimento").toLocalDate(),
+						curso,
+						rs.getString("CPF")
+					);
 				}
 			}
-
 		} catch (SQLException e) {
 			throw new DbException("Erro ao buscar aluno por matrícula: " + e.getMessage());
 		}
-
 		return aluno;
 	}
 
 	public List<Aluno> buscarPorNome(String nome) {
-		String sql = "SELECT * FROM aluno WHERE nome LIKE ?";
+		String sql = "SELECT a.*, c.id AS curso_id, c.nome AS curso_nome FROM aluno a "
+				+ "JOIN curso c ON a.id_curso = c.id WHERE a.nome LIKE ?";
+
 		List<Aluno> alunos = new ArrayList<>();
 
 		try (Connection conn = DB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-			stmt.setString(1, "%" + nome + "%"); // busca parcial com wildcard %
+			stmt.setString(1, "%" + nome + "%");
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
-					Aluno aluno = new Aluno(rs.getInt("id"), rs.getInt("matricula"), rs.getString("nome"),
-							rs.getString("telefone"), rs.getDate("data_de_nascimento").toLocalDate(),
-							Curso.fromString(rs.getString("curso")), rs.getString("CPF"));
+					Curso curso = new Curso(rs.getInt("curso_id"), rs.getString("curso_nome"));
+					Aluno aluno = new Aluno(
+						rs.getInt("id"),
+						rs.getInt("matricula"),
+						rs.getString("nome"),
+						rs.getString("telefone"),
+						rs.getDate("data_de_nascimento").toLocalDate(),
+						curso,
+						rs.getString("CPF")
+					);
 					alunos.add(aluno);
 				}
 			}
-
 		} catch (SQLException e) {
 			throw new DbException("Erro ao buscar aluno por nome: " + e.getMessage());
 		}
-
-		return alunos; // Retorna a lista (vazia se não encontrar)
+		return alunos;
 	}
 
 	public Aluno removerAluno(int matricula) {
@@ -171,18 +196,15 @@ public class AlunoDAO {
 	    }
 
 	    public boolean atualizarCurso(int matricula, Curso novoCurso) {
-	        String sql = "UPDATE aluno SET curso = ? WHERE matricula = ?";
-	        try (Connection conn = DB.getConnection();
-	             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-	            ps.setString(1, novoCurso.name());
-	            ps.setInt(2, matricula);
-	            return ps.executeUpdate() > 0;
-
-	        } catch (SQLException e) {
-	            throw new DbException("Erro ao atualizar curso: " + e.getMessage());
-	        }
-	    }
+			String sql = "UPDATE aluno SET curso_id = ? WHERE matricula = ?";
+			try (Connection conn = DB.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+				ps.setInt(1, novoCurso.getId());
+				ps.setInt(2, matricula);
+				return ps.executeUpdate() > 0;
+			} catch (SQLException e) {
+				throw new DbException("Erro ao atualizar curso: " + e.getMessage());
+			}
+		}
 
 	    public boolean atualizarCpf(int matricula, String novoCpf) {
 	        String sql = "UPDATE aluno SET CPF = ? WHERE matricula = ?";

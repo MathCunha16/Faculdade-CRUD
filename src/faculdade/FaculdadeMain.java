@@ -7,11 +7,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.AlunoDAO;
+import dao.TurmaDAO;
 import dao.UsuarioDAO;
+import db.DbException;
 import db.InicializadorBanco;
+import faculdade.Util.Cores;
 import model.Aluno;
 import model.Curso;
+import model.EnumCurso;
 import model.TipoUsuario;
+import model.Turma;
 import model.Usuario;
 import model.Validador;
 
@@ -21,9 +26,12 @@ public class FaculdadeMain {
 		Scanner scanner = new Scanner(System.in);
 		AlunoDAO alunoDAO = new AlunoDAO();
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		TurmaDAO turmaDAO = new TurmaDAO();
 
+		InicializadorBanco.inicializarCurso(); // Iniciando tabela de cursos
 		InicializadorBanco.inicializarAluno(); // Criando tabela aluno Se não existir
-		InicializadorBanco.inicializarControleMatricula();
+		InicializadorBanco.inicializarControleMatricula(); // Iniciando controle de matriculas
+		InicializadorBanco.inicializarTurma(); // iniciando tabela de turmas
 		InicializadorBanco.inicializarUsuario(); // Criando tabela usuario SE não existir
 		InicializadorBanco.iniciarAdminPadrao(); // Criando ADM padrão do sistema
 		InicializadorBanco.iniciarAlunosPadrao(); // Criando 2 alunos padrões do sistema
@@ -149,36 +157,38 @@ public class FaculdadeMain {
 		}
 
 		if (user.getTipoUsuario() == TipoUsuario.ADM) {
-			// <<<<<------------------ MENU PARA ADMs !!!!!!!
-
-			System.out.println(Cores.VERDE + "=".repeat(15) + "Faculdade UniEsquina" + "=".repeat(15) + Cores.RESET );
-
-			System.out.println(Cores.AMARELO +"Você foi logado como " + Cores.VERMELHO + "ADM"
-			+ Cores.AMARELO + ", seja bem vindo " + Cores.VERMELHO + user.getEmail() + Cores.RESET);
-
-			System.out.println(Cores.AMARELO + "Comandos disponíveis:" + Cores.RESET);
-			System.out.println("-" + Cores.AZUL + " CADASTRAR 📋: " + Cores.RESET + "adicionar um novo aluno");
-			System.out.println("-" + Cores.CIANO + " EDITAR ✏️: " + Cores.RESET + "editar informações de um aluno");
-			System.out.println("-" + Cores.ROXO + " LISTAR 📄: " + Cores.RESET + "listar todos os alunos");
-			System.out.println("-" + Cores.VERDE + " BUSCAR MATRICULA 🔍: " + Cores.RESET +  "busque um aluno pelo número de matricula");
-			System.out.println("-" + Cores.VERDE + " BUSCAR NOME 🔎: " + Cores.RESET + "busque alunos pelo nome");
-			System.out.println("-" + Cores.LARANJA + " DELETAR 🗑️: " + Cores.RESET + "deletar um aluno do sistema por meio da matricula");
-			System.out.println("-" + Cores.VERMELHO + " SAIR ⛔: " + Cores.RESET + "encerrar programa");
+			// <<<<<------------------ MENU PARA ADMs !! ------------------>>>>>
 
 			loopPrincipal: // label principal de controle pro loop
 			while (true) {
+				System.out.println(Cores.VERDE + "=".repeat(15) + "Faculdade UniEsquina" + "=".repeat(15) + Cores.RESET );
+
+				System.out.println(Cores.AMARELO +"Você está logado como " + Cores.VERMELHO + "ADM"
+				+ Cores.AMARELO + ", seja bem vindo " + Cores.VERMELHO + user.getEmail() + Cores.RESET);
+
+				System.out.println(Cores.AMARELO + "Comandos disponíveis:" + Cores.RESET);
+				System.out.println("-" + Cores.AZUL + "[1] CADASTRAR ALUNO 📋: " + Cores.RESET + "adicionar um novo aluno");
+				System.out.println("-" + Cores.CIANO + "[2] EDITAR ALUNO ✏️: " + Cores.RESET + "editar informações de um aluno");
+				System.out.println("-" + Cores.ROXO + "[3] LISTAR ALUNOS 📄: " + Cores.RESET + "listar todos os alunos");
+				System.out.println("-" + Cores.VERDE + "[4] BUSCAR MATRICULA 🔍: " + Cores.RESET +  "busque um aluno pelo número de matricula");
+				System.out.println("-" + Cores.VERDE + "[5] BUSCAR NOME 🔎: " + Cores.RESET + "busque alunos pelo nome");
+				System.out.println("-" + Cores.LARANJA + "[6] DELETAR ALUNO🗑️: " + Cores.RESET + "deletar um aluno do sistema por meio da matricula");
+				System.out.println("-" + Cores.AZUL + "[7] CRIAR TURMA 📋: " + Cores.RESET + "crie uma nova turma para adicionar alunos");
+				System.out.println("-" + Cores.ROXO + "[8] LISTAR TURMAS 📄: " + Cores.RESET + "listar todas as turmas");
+				System.out.println("-" + Cores.LARANJA + "[9] GERENCIAR TURMAS  🔍: " + Cores.RESET + "busque uma turma pelo id e adicione ou remova alunos");
+				System.out.println("-" + Cores.VERMELHO + "[0] SAIR ⛔: " + Cores.RESET + "encerrar programa");
 				System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
-				System.out.println("Digite o comando que deseja realizar:");
+				System.out.println("Digite o número da opção escolhida:");
 				System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
 				String entrada = scanner.nextLine().trim().toUpperCase();
 
 				switch (entrada) { // encerra o programa
-				case "SAIR":
+				case "0":
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 					System.out.println(Cores.VERMELHO + "Encerrando programa..." + Cores.RESET);
 					break loopPrincipal;
 
-				case "CADASTRAR": // Adiciona novo aluno ao DB
+				case "1": // Adiciona novo aluno ao DB
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 
 					System.out.println("Digite o nome do aluno:");
@@ -214,7 +224,8 @@ public class FaculdadeMain {
 						}
 					}
 
-					Curso cursoSelecionado = escolherCurso(scanner); // Listagem de cursos e escolha
+					EnumCurso enumSelecionado = Util.escolherCurso(scanner); // Retorna EnumCurso
+					Curso cursoSelecionado = Util.converter(enumSelecionado); // Converte para Curso
 
 					System.out.println("Digite o CPF do aluno: ");
 				    System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
@@ -249,7 +260,7 @@ public class FaculdadeMain {
 
 					continue loopPrincipal;
 
-				case "BUSCAR MATRICULA":
+				case "4":
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 					System.out.println("Digite a matricula do aluno: ");
 
@@ -279,7 +290,7 @@ public class FaculdadeMain {
 					}
 					continue loopPrincipal;
 
-				case "BUSCAR NOME":
+				case "5":
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 					System.out.println("Digite o nome do aluno: ");
 					System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
@@ -294,7 +305,7 @@ public class FaculdadeMain {
 					
 					continue loopPrincipal;
 
-				case "EDITAR":
+				case "2":
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 
 					// 1) Loop pra verificar matricula
@@ -385,7 +396,8 @@ public class FaculdadeMain {
 						break;
 
 					case 4:
-						Curso novoCurso = escolherCurso(scanner);
+						enumSelecionado = Util.escolherCurso(scanner);
+						Curso novoCurso = Util.converter(enumSelecionado); // Conversão para Curso
 						sucesso = alunoDAO.atualizarCurso(matEdit, novoCurso);
 						break;
 
@@ -430,12 +442,12 @@ public class FaculdadeMain {
 					}
 					continue loopPrincipal;
 
-				case "LISTAR":
+				case "3":
 					List<Aluno> alunos = alunoDAO.listarAlunos();
 					exibirAlunos(alunos);
 					continue loopPrincipal;
 
-				case "DELETAR":
+				case "6":
 					System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 					System.out.println("Digite a matrícula do aluno a ser removido:");
 					System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
@@ -459,6 +471,100 @@ public class FaculdadeMain {
 					}
 					continue loopPrincipal;
 
+				case "7":
+				    System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
+				    System.out.println("Digite o nome da turma:");
+				    System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				    String nomeTurma = scanner.nextLine();
+
+				    EnumCurso cursoTurma = Util.escolherCurso(scanner);
+				    Curso curso = Util.converter(cursoTurma);
+
+				    System.out.println("Selecione o turno (MANHÃ/TARDE/NOITE):");
+				    System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				    String turno = scanner.nextLine().toUpperCase();
+
+				    Turma novaTurma = new Turma(0, nomeTurma, turno, curso.getId(), "");
+				    turmaDAO.criarTurma(novaTurma);
+				    continue loopPrincipal;
+
+				case "8":
+				    List<Turma> turmas = turmaDAO.listarTurmas();
+				    exibirTurmas(turmas);
+				    continue loopPrincipal;
+
+				case "9":
+				    System.out.println("Digite o ID da turma:");
+				    System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				    int idTurmaBusca = Integer.parseInt(scanner.nextLine());
+
+				    Turma turmaSelecionada = turmaDAO.buscarPorId(idTurmaBusca);
+				    if (turmaSelecionada == null) {
+				        System.out.println(Cores.ERRO + "Turma não encontrada!" + Cores.RESET);
+				        continue loopPrincipal;
+				    }
+
+				    boolean voltarAoMenuTurma = false;
+				    while (!voltarAoMenuTurma) {
+				        // Exibe os detalhes (sempre com a mesma variável)
+				        exibirDetalhesTurma(turmaSelecionada);
+
+				        System.out.println(Cores.AMARELO + "\nOpções:" + Cores.RESET);
+				        System.out.println("[1] Adicionar Aluno");
+				        System.out.println("[2] Remover Aluno");
+				        System.out.println("[3] Atualizar Lista");
+				        System.out.println("[4] Voltar ao Menu Principal");
+				        System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				        String opcao = scanner.nextLine().trim();
+
+				        switch (opcao) {
+				            case "1":
+				                System.out.println("Digite a matrícula do aluno:");
+				                System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				                try {
+				                    matricula = Integer.parseInt(scanner.nextLine());
+				                    turmaDAO.adicionarAluno(turmaSelecionada.getIdTurma(), matricula);
+				                    System.out.println(Cores.SUCESSO + "Aluno adicionado!" + Cores.RESET);
+				                    turmaSelecionada = turmaDAO.buscarPorId(idTurmaBusca);
+				                } catch (NumberFormatException | DbException e) {
+				                    System.out.println(Cores.ERRO + "Erro: " + e.getMessage() + Cores.RESET);
+				                }
+				                break;
+
+				            case "2":
+				                if (turmaSelecionada.getAlunos().isEmpty()) {
+				                    System.out.println(Cores.ERRO + "Não há alunos para remover!" + Cores.RESET);
+				                    break;
+				                }
+				                System.out.println("Digite o número do aluno a remover:");
+				                System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
+				                try {
+				                    int indice = Integer.parseInt(scanner.nextLine()) - 1;
+				                    String alunoRemover = turmaSelecionada.getAlunos().get(indice);
+				                    String matriculaRemover = alunoRemover.split(":")[0];
+
+				                    turmaDAO.removerAluno(turmaSelecionada.getIdTurma(), matriculaRemover);
+				                    System.out.println(Cores.SUCESSO + "Aluno removido!" + Cores.RESET);
+				                    turmaSelecionada = turmaDAO.buscarPorId(idTurmaBusca);
+				                } catch (Exception e) {
+				                    System.out.println(Cores.ERRO + "Erro ao remover aluno!" + Cores.RESET);
+				                }
+				                break;
+
+				            case "3":
+				                turmaSelecionada = turmaDAO.buscarPorId(idTurmaBusca);
+				                break;
+
+				            case "4":
+				                voltarAoMenuTurma = true;
+				                break;
+
+				            default:
+				                System.out.println(Cores.ERRO + "Opção inválida!" + Cores.RESET);
+				                break;
+				        }
+				    }
+				    continue loopPrincipal;
 				default:
 					System.out.println(Cores.ERRO + "Comando desconhecido, tente novamente" + Cores.RESET);
 					continue loopPrincipal;
@@ -467,60 +573,80 @@ public class FaculdadeMain {
 
 			scanner.close();
 
-		}else { // <<<<<<<<<<<<<<<<----------------------------------- MENU PARA ALUNOS
-			// !!!!!!!!!!
+		}else { 
+			// <<<<<<<<<<<<<<<<---------------------------- MENU PARA ALUNOS ------------->>>>>>>>>>>>>>>>
 
 	Aluno alunoLogado = alunoDAO.buscarPorMatricula(user.getMatricula());
 
-	System.out.println(Cores.VERDE + "=".repeat(15) + "Faculdade UniEsquina" + "=".repeat(15) + Cores.RESET);
-
-	System.out.println(Cores.AMARELO + "Você foi logado como " + Cores.CIANO + "ALUNO"
-	        + Cores.AMARELO + ", seja bem vindo " + Cores.CIANO + alunoLogado.getNome() + Cores.RESET);
-
-	System.out.println(Cores.AMARELO + "Comandos disponíveis:" + Cores.RESET);
-	System.out.println("-" + Cores.AZUL + " CONSULTAR 🔍: " + Cores.RESET + "veja suas informações de aluno");
-	System.out.println("-" + Cores.ROXO + " EDITAR ✏️: " + Cores.RESET + "alterar suas credenciais de login");
-	System.out.println("-" + Cores.VERMELHO + " SAIR ⛔: " + Cores.RESET + "encerrar programa");
-
 	loopMenuAlunos: // Label menu aluno
 	while (true) {
+		System.out.println(Cores.VERDE + "=".repeat(15) + "Faculdade UniEsquina" + "=".repeat(15) + Cores.RESET);
+
+		System.out.println(Cores.AMARELO + "Você está logado como " + Cores.CIANO + "ALUNO"
+		        + Cores.AMARELO + ", seja bem vindo " + Cores.CIANO + alunoLogado.getNome() + Cores.RESET);
+
+		System.out.println(Cores.AMARELO + "Comandos disponíveis:" + Cores.RESET);
+		System.out.println("-" + Cores.AZUL + "[1] CONSULTAR 🔍: " + Cores.RESET + "veja suas informações de aluno");
+		System.out.println("-" + Cores.ROXO + "[2] EDITAR ✏️: " + Cores.RESET + "alterar suas credenciais de login");
+		System.out.println("-" + Cores.VERMELHO + "[0] SAIR ⛔: " + Cores.RESET + "encerrar programa");
 		System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
-		System.out.println("Digite o comando que deseja realizar:");
+		System.out.println("Digite o número da opção escolhida:");
 		System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
 		String entrada = scanner.nextLine().trim().toUpperCase();
 
 		switch (entrada) {
-		case "SAIR":
+		case "0":
 			System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
 			System.out.println(Cores.VERMELHO + "Encerrando programa..." + Cores.RESET);
 			break loopMenuAlunos; 
 
-		case "CONSULTAR":
+		case "1":
 			if (alunoLogado != null) {
 				System.out.println(Cores.VERDE + "=".repeat(20) + Cores.VERMELHO + " SEUS DADOS " + Cores.VERDE + "=".repeat(20) + Cores.RESET);
 				System.out.println(Cores.CIANO + "Nome: " + Cores.RESET + alunoLogado.getNome());
+				System.out.println(Cores.AZUL + "Matrícula: " + Cores.RESET + alunoLogado.getMatricula());
 				System.out.println(Cores.VERDE + "Telefone: " + Cores.RESET + alunoLogado.getTelefone());
 				System.out.println(Cores.AZUL + "Data de Nascimento: " + Cores.RESET + alunoLogado.getDataDeNascimento());
 				System.out.println(Cores.ROXO + "Curso: " + Cores.RESET + alunoLogado.getCurso());
 				System.out.println(Cores.LARANJA + "CPF: " + Cores.RESET + alunoLogado.getCpf());
 				System.out.println(Cores.AZUL + "E-mail: " + Cores.RESET + user.getEmail());
 				System.out.println(Cores.AMARELO + "Senha de login: " + Cores.RESET + user.getSenha());
-			} else {
-				System.out.println(Cores.ERRO + "Não foi possível realizar esta ação. Contate o administrador." + Cores.RESET);
-			}
-			continue loopMenuAlunos;
+				System.out.println(Cores.VERDE + "\nSuas Turmas:" + Cores.RESET);
+		        List<Turma> todas = turmaDAO.listarTurmas();
+		        boolean achou = false;
+		        for (Turma t : todas) { 
+		            for (String entradaConsulta : t.getAlunos()) {
+		                if (entradaConsulta.startsWith(alunoLogado.getMatricula() + ":")) {
+		                    achou = true;		                   
+		                    Curso c = Util.converter( EnumCurso.values()[ t.getIdCurso() - 1 ] );
+		                    System.out.printf("• %s | Curso: %s | Turno: %s%n",
+		                        t.getNomeTurma(),
+		                        c.getNome(),
+		                        t.getTurno()
+		                    );
+		                    break;
+		                }
+		            }
+		        }
+		        if (!achou) {
+		            System.out.println("  (Você não está matriculado em nenhuma turma)");
+		        }	
+		        
+		    } 
 			
-		case "EDITAR":
+		    continue loopMenuAlunos;
+			
+		case "2":
 			if (alunoLogado != null) {
 				System.out.println(Cores.VERDE + "=".repeat(20) + Cores.LARANJA + " EDITAR DADOS " + Cores.VERDE + "=".repeat(20) + Cores.RESET);
 				System.out.println(Cores.AMARELO + "O que deseja editar?" + Cores.RESET);
-				System.out.println("- " + Cores.CIANO + "EMAIL 📧" + Cores.RESET + ": alterar seu e-mail de login");
-				System.out.println("- " + Cores.CIANO + "SENHA 🔒" + Cores.RESET + ": alterar sua senha de acesso");
+				System.out.println("- " + Cores.CIANO + "[1] EMAIL 📧" + Cores.RESET + ": alterar seu e-mail de login");
+				System.out.println("- " + Cores.CIANO + "[2] SENHA 🔒" + Cores.RESET + ": alterar sua senha de acesso");
 				System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
 				String opcao = scanner.nextLine().trim().toUpperCase();
 
 				switch (opcao) {
-				case "EMAIL":
+				case "1":
 				    while (true) {
 				        System.out.println("Digite o novo e-mail: ");
 				        System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
@@ -557,6 +683,7 @@ public class FaculdadeMain {
 				        boolean sucesso = usuarioDAO.atualizarEmail(user.getId(), novoEmail);
 				        if (sucesso) {
 				            System.out.println(Cores.SUCESSO + "E-mail atualizado com sucesso!" + Cores.RESET);
+				            user.setEmail(novoEmail);
 				        } else {
 				            System.out.println(Cores.ERRO + "Erro ao atualizar e-mail!" + Cores.RESET);
 				        }
@@ -565,7 +692,7 @@ public class FaculdadeMain {
 				    }
 				    break; 
 				    
-				case "SENHA":
+				case "2":
 				    while (true) {
 				        System.out.println("Digite a nova senha (mínimo 6 caracteres):");
 				        System.out.print(Cores.AMARELO + "--> " + Cores.RESET);
@@ -601,6 +728,7 @@ public class FaculdadeMain {
 				        boolean sucesso = usuarioDAO.atualizarSenha(user.getId(), novaSenha);
 				        if (sucesso) {
 				            System.out.println(Cores.SUCESSO + "Senha atualizada com sucesso!" + Cores.RESET);
+				            user.setSenha(novaSenha);
 				        } else {
 				            System.out.println(Cores.ERRO + "Erro ao atualizar senha!" + Cores.RESET);
 				        }
@@ -626,7 +754,7 @@ public class FaculdadeMain {
 } // fim do else (que entra no menu de aluno)
 } // FIM DO PROGRAMA !!!!
 
-	private static void exibirAlunos(List<Aluno> alunos) {
+	private static void exibirAlunos(List<Aluno> alunos) { // Metodo pra listar alunos
 	    System.out.println(Cores.VERDE + "\nLista de Alunos:" + Cores.RESET);
 	    System.out.println(Cores.TEXTO_BRANCO + "-".repeat(160) + Cores.RESET);
 
@@ -655,50 +783,46 @@ public class FaculdadeMain {
 
 	    System.out.println(Cores.TEXTO_BRANCO + "-".repeat(160) + Cores.RESET);
 	}
-
-
-	public static Curso escolherCurso(Scanner scanner) {
-		System.out.println(Cores.AMARELO + "Escolha um curso:" + Cores.RESET);
-		Curso[] cursos = Curso.values();
-		for (int i = 0; i < cursos.length; i++) {
-			System.out.printf(Cores.AMARELO + "[%d]" + Cores.ROXO+ "%s%n", i + 1, cursos[i].getNomeAmigavel());
-		}
-
-		int opcaoCurso = -1;
-		do {
-			System.out.print(Cores.AMARELO + "Digite o número do curso --> " + Cores.RESET);
-			try {
-				opcaoCurso = Integer.parseInt(scanner.nextLine());
-				if (opcaoCurso < 1 || opcaoCurso > cursos.length) {
-					System.out.println(Cores.ERRO + "Opção inválida." + Cores.RESET);
-					opcaoCurso = -1;
-				}
-			} catch (NumberFormatException e) {
-				System.out.println(Cores.ERRO + "Entrada inválida." + Cores.RESET);
-			}
-		} while (opcaoCurso == -1);
-
-		return cursos[opcaoCurso - 1];
-	}
 	
-	public class Cores { // Strings com cores pra melhor visualização de texto
-	    public static final String RESET = "\u001B[0m"; // retorna a cor padrão
-	    public static final String VERMELHO = "\u001B[31m";
-	    public static final String VERDE = "\u001B[32m";
-	    public static final String AMARELO = "\u001B[33m";
-	    public static final String LARANJA = "\u001B[38;5;208m";
-	    public static final String AZUL = "\u001B[34m";
-	    public static final String ROXO = "\u001B[35m";
-	    public static final String CIANO = "\u001B[36m";
+	private static void exibirTurmas(List<Turma> turmas) {
+	    System.out.println(Cores.VERDE + "\nLista de Turmas:" + Cores.RESET);
+	    System.out.println("-".repeat(80));
 	    
-	    public static final String TEXTO_NEGRITO = "\u001B[1m";  // Negrito
-	    public static final String TEXTO_BRANCO = "\u001B[37m";
-	    public static final String TEXTO_PRETO = "\u001B[30m";
-	    public static final String FUNDO_VERMELHO = "\u001B[41m";
-	    public static final String FUNDO_VERDE = "\u001B[42m";
-	    public static final String ERRO = FUNDO_VERMELHO + TEXTO_BRANCO + TEXTO_NEGRITO; // Usado para mostrar ERROS!!!
-	    public static final String SUCESSO = FUNDO_VERDE + TEXTO_NEGRITO + TEXTO_PRETO; // Usado pra mostrar msgm de Sucesso!
-
+	    System.out.printf(Cores.TEXTO_NEGRITO + "| %-4s | %-20s | %-10s | %-8s | %-30s |%n" + Cores.RESET,
+	        "ID", "Nome", "Turno", "Curso ID", "Alunos");
+	    
+	    for (Turma t : turmas) {
+	        // Alterado para getAlunosComoString()
+	        String alunosStr = t.getAlunosComoString(); 
+	        System.out.printf("| " + Cores.VERMELHO + "%-4d" + Cores.RESET + " | "
+	            + Cores.CIANO + "%-20s" + Cores.RESET + " | "
+	            + Cores.VERDE + "%-10s" + Cores.RESET + " | "
+	            + Cores.LARANJA + "%-8d" + Cores.RESET + " | "
+	            + Cores.AZUL + "%-30s" + Cores.RESET + " |%n",
+	            t.getIdTurma(), t.getNomeTurma(), t.getTurno(), t.getIdCurso(), alunosStr);
+	    }
+	    System.out.println("-".repeat(80));
 	}
-	
+
+	private static void exibirDetalhesTurma(Turma turma) {
+	    System.out.println(Cores.VERDE + "\nDetalhes da Turma:" + Cores.RESET);
+	    System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
+	    System.out.println(Cores.CIANO + "ID: " + Cores.RESET + turma.getIdTurma());
+	    System.out.println(Cores.CIANO + "Nome: " + Cores.RESET + turma.getNomeTurma());
+	    System.out.println(Cores.CIANO + "Turno: " + Cores.RESET + turma.getTurno());
+	    System.out.println(Cores.CIANO + "Curso ID: " + Cores.RESET + turma.getIdCurso());
+	    System.out.println(Cores.CIANO + "Alunos: " + Cores.RESET);
+	    
+	    List<String> alunos = turma.getAlunos();
+	    if (alunos.isEmpty()) {
+	        System.out.println("  Nenhum aluno cadastrado.");
+	    } else {
+	        for (int i = 0; i < alunos.size(); i++) {
+	            String[] partes = alunos.get(i).split(":");
+	            System.out.println("  [" + (i + 1) + "] Matrícula: " + partes[0] + " | Nome: " + partes[1]);
+	        }
+	    }
+	    System.out.println(Cores.VERDE + "=".repeat(50) + Cores.RESET);
+	}
+		
 }
