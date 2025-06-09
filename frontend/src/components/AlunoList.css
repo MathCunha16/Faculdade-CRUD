@@ -1,0 +1,85 @@
+.aluno-list-container h1 {
+    color: #1e293b;
+    margin-bottom: 24px;
+  }
+  
+  .aluno-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden; 
+  }
+  
+  .aluno-table th, .aluno-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .aluno-table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+  
+  .aluno-table tbody tr:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .actions-cell {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .actions-cell button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .edit-btn {
+    background-color: #3b82f6;
+  }
+  .edit-btn:hover {
+    background-color: #2563eb;
+  }
+  
+  .delete-btn {
+    background-color: #ef4444;
+  }
+  .delete-btn:hover {
+    background-color: #dc2626;
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .list-header h1 {
+    margin: 0;
+  }
+  
+  .submit-btn {
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #1d4ed8;
+  }

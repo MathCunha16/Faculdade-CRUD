@@ -1,0 +1,80 @@
+.turma-detail-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .detail-header {
+    margin-bottom: 32px;
+  }
+  
+  .detail-header h1 {
+    margin: 0 0 12px 0;
+    color: #1e293b;
+  }
+  
+  .header-pills {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .pill {
+    background-color: #e2e8f0;
+    color: #475569;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card h2, .card h3 {
+    margin-top: 0;
+    color: #334155;
+  }
+  
+  .aluno-na-turma-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .aluno-na-turma-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .remove-aluno-btn {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }

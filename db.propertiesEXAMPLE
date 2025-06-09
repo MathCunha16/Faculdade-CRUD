@@ -1,4 +1,0 @@
-user=SEU_USUÁRIO
-password=SUA_SENHA
-dburl=jdbc:mysql://127.0.0.1:3306/faculdade
-useSSL=false

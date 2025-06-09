@@ -1,0 +1,27 @@
+.aluno-search {
+    position: relative;
+  }
+  .aluno-search input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .search-results {
+    list-style-type: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+  }
+  .search-results li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .search-results li:hover {
+    background-color: #f0f0f0;
+  }

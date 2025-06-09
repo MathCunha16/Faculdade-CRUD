@@ -1,0 +1,124 @@
+.aluno-dashboard {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    color: #334155;
+  }
+  
+  .dashboard-header {
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #1e293b;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .user-info span {
+    font-size: 16px;
+  }
+  
+
+  .logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .logout-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .dashboard-main-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .info-card {
+    background-color: #ffffff;
+    padding: 24px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+  
+  .info-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .info-grid p {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .info-grid p strong {
+    color: #475569;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  .turmas-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .turmas-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s;
+  }
+  
+  .turmas-list li:hover {
+    background-color: #f8fafc;
+  }
+  
+  .turmas-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .turma-nome {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .turma-turno {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }

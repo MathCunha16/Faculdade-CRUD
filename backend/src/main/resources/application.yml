@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/faculdade?useSSL=false
+    username: Developer
+    password: 123
+  
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: always # O Spring sempre roda o script de dados
+
+  defer-datasource-initialization: true
