@@ -1,405 +1,262 @@
-# 🎓 Sistema de Gestão Acadêmica com JDBC 🚀
+<div align="center">
 
-![Java](https://img.shields.io/badge/Java-17%2B-blue)
-![MySQL](https://img.shields.io/badge/DB-MySQL-00758f)
-![License](https://img.shields.io/badge/License-MIT-green)
-![POO](https://img.shields.io/badge/Design-Orientado%20a%20Objetos-brightgreen)
+# 🎓 Sistema de Gestão Acadêmica v2.0 🚀
+
+### A Evolução de uma Aplicação CLI para uma Solução Full-Stack Moderna
+
+</div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17%2B-blue?style=for-the-badge&logo=openjdk" alt="Java 17+">
+  <img src="https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring" alt="Spring Boot 3.x">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react" alt="React 18">
+  <img src="https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite" alt="Vite">
+  <img src="https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql" alt="MySQL 8.x">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License MIT">
+</p>
 
 ---
 
 ## 📜 Índice Rápido
-| [Funcionalidades Principais](#funcionalidades-principais) | [Estrutura do Projeto](#estrutura-do-projeto) |
-| [Configuração Inicial](#configuração-inicial) | [Fluxo de Operações](#fluxo-de-operações) |
-| [Menus e Comandos](#menus-e-comandos) | [Roadmap](#roadmap) |
-| [Licença](#licença) | [Detalhamento Técnico Profundo](#detalhamento-técnico-profundo) |
+
+| [Sobre o Projeto](#-sobre-o-projeto) | [Funcionalidades](#-funcionalidades) | [Tecnologias](#-tecnologias-utilizadas) |
+| :--- | :--- | :--- |
+| [Estrutura Monorepo](#-estrutura-do-projeto) | [Como Executar](#-configuração-e-execução) | [Credenciais Padrão](#-credenciais-de-acesso) |
+| [Fluxo da Aplicação](#-fluxo-da-aplicação) | [Endpoints da API](#-endpoints-da-api) | [Detalhamento Técnico](#-detalhamento-técnico-profundo) |
+| [Versão CLI Legada](#-versão-cli-legada-v10) | [Roadmap Futuro](#-roadmap-futuro) | [Licença](#-licença) |
 
 ---
 
-<a name="funcionalidades-principais"></a>
-## ✨ Funcionalidades Principais (v1.1 - Atualização Significativa)
+<a name="-sobre-o-projeto"></a>
+## 🌟 Sobre o Projeto
 
-- 🔐 **Autenticação de Usuários:** Sistema de login e registro para alunos e administradores.
-- 👤 **Perfis de Usuário:**
-    - **Administrador (ADM):** Controle total sobre alunos, turmas e visualização de usuários.
-    - **Aluno:** Consulta de dados pessoais, informações de turmas e edição de credenciais de acesso.
-- 🗃️ **Inicialização Automática do Banco de Dados:**
-    - Criação automática das tabelas: `aluno`, `curso`, `turma`, `usuarios`, `controle_matricula` via Java (JDBC).
-    - População inicial da tabela `curso` com uma lista de cursos pré-definidos.
-    - Criação de um usuário administrador padrão e alunos de exemplo com contas de usuário associadas.
-- 🔄 **CRUD Completo para Alunos (via ADM):**
-    - Create, Read (listar todos, buscar por matrícula, buscar por nome), Update, Delete.
-    - Geração automática de matrícula para novos alunos.
-- 👨‍🏫 **Gerenciamento de Turmas (via ADM):**
-    - Criar novas turmas associadas a cursos.
-    - Listar todas as turmas.
-    - Adicionar e remover alunos de turmas.
-- 💻 **Menu CLI Interativo:**
-    - Comandos intuitivos e feedback visual com cores para melhor experiência.
-- ✅❌ **Validação de Entradas:**
-    - Validação para CPF, nome, telefone, e-mail em cadastros e edições.
-- 🚨 **Tratamento de Erros:**
-    - Exceções customizadas (`DbException`) para erros de persistência.
+O **UniEsquina v2.0** representa a completa modernização e reengenharia de um sistema de gestão acadêmica, transformando uma robusta aplicação de console (CLI) em uma solução **Full-Stack** dinâmica e interativa. O projeto foi meticulosamente refatorado para adotar as melhores práticas do mercado, com um backend poderoso em **Spring Boot** e um frontend reativo construído com **React**.
+
+Esta nova versão não apenas replica, mas expande as funcionalidades originais, oferecendo uma experiência de usuário rica através de interfaces web dedicadas para os perfis de **Administrador** e **Aluno**, com um sistema de autenticação e registro.
+
+<a name="-funcionalidades"></a>
+## ✨ Funcionalidades
+
+### 🏢 **Painel do Administrador**
+O centro de controle total do sistema, acessível apenas por usuários ADM.
+
+- 🔐 **Login Seguro:** Acesso a uma área restrita.
+- 📊 **Dashboard Modular:** Interface com barra lateral de navegação para acesso rápido a todas as funcionalidades.
+- 👨‍🎓 **Gestão de Alunos (CRUD Completo):**
+    - 📋 **Listar** todos os alunos com busca e paginação (futura).
+    - ✅ **Cadastrar** novos alunos com validação de dados em tempo real e seleção de cursos buscados diretamente da API.
+    - ✏️ **Editar** informações completas de alunos já cadastrados.
+    - 🗑️ **Deletar** alunos do sistema (com remoção em cascata das turmas).
+- 🏫 **Gestão de Turmas (CRUD Completo):**
+    - 📄 **Listar** todas as turmas, seus cursos e quantidade de alunos.
+    - ✅ **Criar** novas turmas, associando-as a um curso existente.
+    - 🗑️ **Deletar** turmas.
+    - 🔎 **Gerenciar** uma turma específica, com funcionalidades para:
+        - ➕ **Adicionar** alunos existentes à turma através de uma busca por nome com autocomplete.
+        - ➖ **Remover** alunos da turma com um clique.
+
+### 🧑‍🎓 **Portal do Aluno**
+Uma área pessoal e informativa para cada aluno matriculado.
+
+- 🔑 **Login e Registro:** Alunos com matrículas válidas podem criar e acessar suas contas.
+- 🎨 **Dashboard Personalizado:** Interface limpa e caprichada para visualização de dados.
+- ℹ️ **Minhas Informações:** Um cartão detalhado com todos os dados pessoais e acadêmicos do aluno logado.
+- 📚 **Minhas Turmas:** Uma lista de todas as turmas em que o aluno está atualmente matriculado.
 
 ---
+<a name="-tecnologias-utilizadas"></a>
+## 🛠️ Tecnologias Utilizadas
 
-<a name="estrutura-do-projeto"></a>
+| Área | Tecnologia | Descrição |
+| :--- | :--- | :--- |
+| ☁️ **Backend** | **Java 17+** | Linguagem principal da aplicação. |
+| | **Spring Boot 3.x**| Framework para criação da API REST e gerenciamento da aplicação. |
+| | **Spring Data JPA**| Camada de abstração para persistência de dados. |
+| | **Hibernate** | Implementação do JPA para mapeamento objeto-relacional (ORM). |
+| | **Maven** | Gerenciador de dependências e build do projeto. |
+| 🌐 **Frontend** | **React 18+** | Biblioteca para construção da interface de usuário (UI). |
+| | **Vite** | Ferramenta de build e servidor de desenvolvimento de alta performance. |
+| | **JavaScript (ES6+)**| Linguagem principal para a lógica do frontend. |
+| | **CSS3** | Estilização dos componentes para uma interface moderna. |
+| 🗃️ **Banco de Dados**| **MySQL 8.x** | Sistema de Gerenciamento de Banco de Dados Relacional. |
+| 🔄 **Controle de Versão**| **Git & GitHub** | Gerenciamento de código fonte e versionamento. |
+
+---
+<a name="-estrutura-do-projeto"></a>
 ## 📂 Estrutura do Projeto
 
-```bash
-src/
-├── db/
-│   ├── DB.java                     # 🔌 Gerenciamento de conexões
-│   ├── DbException.java            # ❌ Exceções de persistência
-│   └── InicializadorBanco.java     # 🛠️ Criação e população inicial de todas as tabelas
-├── model/
-│   ├── Aluno.java                  # 🧱 Entidade Aluno
-│   ├── Curso.java                  # 🎓 Entidade Curso
-│   ├── EnumCurso.java              # 📜 Enum com a lista de Cursos e seus IDs
-│   ├── TipoUsuario.java            # 🎭 Enum para tipos de usuário (ADM, ALUNO)
-│   ├── Turma.java                  # 🏫 Entidade Turma
-│   ├── Usuario.java                # 👤 Entidade Usuário (para login)
-│   └── Validador.java              # ✅ Utilitário para validação de dados
-├── dao/
-│   ├── AlunoDAO.java               # 📊 Operações CRUD em Aluno e geração de matrícula
-│   ├── TurmaDAO.java               # 🛠️ Operações CRUD em Turma e gerenciamento de alunos na turma
-│   └── UsuarioDAO.java             # 🔑 Operações de autenticação e CRUD básico em Usuário
-└── faculdade/
-    ├── FaculdadeMain.java          # 💻 CLI principal, menus (ADM, ALUNO) e fluxo da aplicação
-    └── Util.java                   # 🎨 Utilitários (Cores para console, seleção de curso)
+O projeto adota uma arquitetura **monorepo**, com o código do backend e do frontend logicamente separados em pastas distintas, mas contidos no mesmo repositório para facilitar o gerenciamento.
+
 ```
-
+FaculdadeCRUD_ProjetoFinal/
+├── .git/
+├── .gitignore          # 📜 Arquivo de ignore unificado para ambos os projetos.
+├── backend/            # ☕ Projeto Backend (Spring Boot API)
+│   ├── src/
+│   └── pom.xml
+├── frontend/           # ⚛️ Projeto Frontend (React + Vite)
+│   ├── public/
+│   ├── src/
+│   └── package.json
+└── README.md           # 📍 Você está aqui!
+```
 ---
+<a name="-configuração-e-execução"></a>
+## 🚀 Configuração e Execução
 
-<a name="configuração-inicial"></a>
-## ⚙️ Configuração Inicial
+Siga os passos abaixo para executar a aplicação completa na sua máquina local.
 
-1.  **Banco de Dados MySQL**
+### Pré-requisitos
+- **Java JDK:** Versão 17 ou superior.
+- **Maven:** Instalado e configurado no `PATH` do sistema.
+- **Node.js:** Versão 18 ou superior (inclui o `npm`).
+- **MySQL:** Servidor de banco de dados rodando (XAMPP, Docker, etc.).
+- **Git:** Para clonar o repositório.
+
+### 1. Backend (API Spring Boot)
+1.  **Crie o Banco de Dados:** No seu cliente MySQL, execute:
     ```sql
-    CREATE DATABASE faculdade;
-    USE faculdade;
-    -- As tabelas (aluno, curso, turma, usuarios, controle_matricula)
-    -- serão criadas e algumas populadas automaticamente pelo Java no primeiro 'run'
+    CREATE DATABASE IF NOT EXISTS faculdade;
     ```
+2.  **Configure a Conexão:** Abra o arquivo `backend/src/main/resources/application.yml` e insira suas credenciais do MySQL nos campos `username` e `password`.
+3.  **Execute a Aplicação:** Abra um terminal dentro da pasta `backend/` e rode o comando Maven:
+    ```bash
+    # No Windows
+    mvnw.cmd spring-boot:run
 
-2.  **Arquivo de Propriedades** (`db.properties`)
-    Deve estar na raiz do projeto.
-    ```properties
-    user=seu_usuario
-    password=sua_senha
-    dburl=jdbc:mysql://127.0.0.1:3306/faculdade
-    useSSL=false
+    # No Mac/Linux
+    ./mvnw spring-boot:run
     ```
+    Ou, se preferir, importe o projeto em sua IDE (Eclipse, IntelliJ) como um "Existing Maven Project" e execute a classe principal `FaculdadeCrudApplication.java`.
+4.  O backend estará rodando em `http://localhost:8080`. A primeira execução criará e populará as tabelas automaticamente através do `data.sql`.
 
-3.  **Dependências**
-    * 📥 Baixe o driver JDBC do MySQL (Connector/J 8.x ou compatível).
-    * ➕ Adicione o `.jar` ao classpath do seu projeto (ex: no Eclipse, "Build Path" -> "Configure Build Path..." -> "Libraries" -> "Add External JARs...").
-
-> **⚠️ Importante**
-> * Se houver um `db.config.example.properties`, renomeie-o para `db.properties`.
-> * Preencha `db.properties` com suas credenciais do MySQL.
-> * Garanta que o servidor MySQL esteja rodando e acessível (padrão: `localhost:3306`).
+### 2. Frontend (Interface React)
+1.  **Abra outro terminal**, separado do backend.
+2.  **Navegue até a pasta do frontend:**
+    ```bash
+    cd frontend
+    ```
+3.  **Instale as dependências** (só precisa fazer isso na primeira vez):
+    ```bash
+    npm install
+    ```
+4.  **Inicie o servidor de desenvolvimento do Vite:**
+    ```bash
+    npm run dev
+    ```
+5.  Abra seu navegador e acesse o endereço fornecido, que geralmente é `http://localhost:5173`.
 
 ---
+<a name="-credenciais-de-acesso"></a>
+## 🔑 Credenciais de Acesso
 
-<a name="fluxo-de-operações"></a>
-## 🔄 Fluxo de Operações
+Use as seguintes credenciais padrão para testar os diferentes perfis de usuário. Elas são criadas automaticamente pelo `data.sql`.
+
+| Perfil | Email | Senha |
+| :--- | :--- | :--- |
+| 👑 **Administrador** | `matheuscunhaprado@gmail.com` | `Cunha123` |
+| 🧑‍🎓 **Aluno 1** | `silviovidal@gmail.com` | `MatheusLindo` |
+| 🧑‍🎓 **Aluno 2** | `bortoleto@outlook.com` | `Bortoleto123` |
+
+---
+<a name="-fluxo-da-aplicação"></a>
+## 🔄 Fluxo da Aplicação
+
+O diagrama abaixo ilustra a arquitetura e o fluxo de comunicação da aplicação.
 
 ```mermaid
-graph TD
-    A["🏁 Início"] --> B{"Escolher Opção Inicial"};
-    B -- "SAIR" --> X["🚪 Encerrar Aplicação"];
-    B -- "LOGAR" --> C{"Autenticar Usuário"};
-    B -- "REGISTRAR" --> D["📝 Registrar Novo Usuário Aluno"];
-    D --> B;
+graph LR
+    %% 👤 Navegador do Usuário
+    subgraph "👤 Navegador do Usuário"
+        A[Usuário] --> B[Interface\nFrontend React];
+    end
 
-    C -- "Falha na Autenticação" --> B;
-    C -- "Sucesso ADM" --> E["🏢 Menu Administrador"];
-    C -- "Sucesso ALUNO" --> F["👨‍🎓 Menu Aluno"];
+    %% ⚙️ Servidor da Aplicação
+    subgraph "⚙️ Servidor da Aplicação"
+        subgraph "☕ Backend - Spring Boot"
+            direction TB
+            C[API\nControllers] --> S[Service\nLayer] --> R[JPA\nRepositories];
+        end
+    end
 
-    E --> EA["Cadastrar Aluno"];
-    E --> EB["Listar Alunos"];
-    E --> EC["Buscar Aluno por Matrícula"];
-    E --> ED["Buscar Aluno por Nome"];
-    E --> EE["Editar Aluno"];
-    E --> EF["Deletar Aluno"];
-    E --> EG["Criar Turma"];
-    E --> EH["Listar Turmas"];
-    E --> EI["Gerenciar Turma - Add ou Rem Aluno"];
-    E -- "SAIR ADM" --> X;
-    EA --> E;
-    EB --> E;
-    EC --> E;
-    ED --> E;
-    EE --> E;
-    EF --> E;
-    EG --> E;
-    EH --> E;
-    EI --> E;
+    %% 🗃️ Banco de Dados
+    subgraph "🗃️ Banco de Dados"
+        D[(MySQL)];
+    end
 
-    F --> FA["Consultar Meus Dados"];
-    F --> FB["Editar Meu Email ou Senha"];
-    F -- "SAIR ALUNO" --> X;
-    FA --> F;
-    FB --> F;
+    %% Conexões
+    B -- "HTTP JSON" --> C;
+    R -- "SQL (JDBC)" --> D;
+
+    %% Estilos personalizados
+    classDef frontend fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a;
+    classDef backendApi fill:#d1fae5,stroke:#065f46,stroke-width:2px,color:#065f46;
+    classDef backendService fill:#fef3c7,stroke:#92400e,stroke-width:2px,color:#78350f;
+    classDef backendRepo fill:#fee2e2,stroke:#991b1b,stroke-width:2px,color:#7f1d1d;
+    classDef db fill:#e5e7eb,stroke:#374151,stroke-width:2px,color:#111827;
+
+    class A,B frontend;
+    class C backendApi;
+    class S backendService;
+    class R backendRepo;
+    class D db;
+
+
 ```
 
 ---
+<a name="-endpoints-da-api"></a>
+## 🌐 Endpoints da API
 
-<a name="menus-e-comandos"></a>
-## 💻 Menus e Comandos
+A API REST do backend expõe os seguintes endpoints principais:
 
-### Menu Inicial
-Ao iniciar a aplicação:
-* `LOGAR`: Solicita email e senha para login. Direciona para o menu ADM ou ALUNO.
-* `REGISTRAR`: Permite que um aluno já cadastrado no sistema (com matrícula existente) crie sua conta de usuário (email/senha).
-* `SAIR`: Encerra a aplicação.
-
-### Menu Administrador (ADM)
-Disponível após login como ADM:
-* `[1] CADASTRAR ALUNO`: Solicita dados do aluno, gera matrícula e insere no banco.
-* `[2] EDITAR ALUNO`: Pede matrícula, exibe sub-menu de campos (nome, telefone, data de nascimento, curso, CPF) para atualização.
-* `[3] LISTAR ALUNOS`: Exibe tabela formatada com todos os alunos.
-* `[4] BUSCAR MATRICULA`: Pede matrícula e mostra dados do aluno.
-* `[5] BUSCAR NOME`: Pede fragmento de nome e lista correspondências.
-* `[6] DELETAR ALUNO`: Pede matrícula e remove o registro do aluno.
-* `[7] CRIAR TURMA`: Solicita nome da turma, curso e turno.
-* `[8] LISTAR TURMAS`: Exibe todas as turmas e os alunos nelas (matrícula:nome).
-* `[9] GERENCIAR TURMAS`: Busca turma por ID, permite adicionar ou remover alunos da turma.
-* `[0] SAIR`: Retorna ao menu inicial/Encerra.
-
-### Menu Aluno
-Disponível após login como ALUNO:
-* `[1] CONSULTAR`: Exibe os dados cadastrais do aluno logado, incluindo suas turmas.
-* `[2] EDITAR`: Permite alterar o e-mail e senha de login do aluno.
-* `[0] SAIR`: Retorna ao menu inicial/Encerra.
+| Verbo HTTP | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/login` | Autentica um usuário e retorna seus dados. |
+| `POST` | `/api/registrar` | Registra um novo login para um aluno com matrícula válida. |
+| `GET` | `/api/alunos` | Lista todos os alunos. |
+| `GET` | `/api/alunos/buscar` | Busca alunos por parte do nome (`?nome=...`). |
+| `POST` | `/api/alunos` | Cria um novo aluno. |
+| `PUT` | `/api/alunos/{matricula}` | Atualiza os dados de um aluno. |
+| `DELETE` | `/api/alunos/{matricula}` | Deleta um aluno. |
+| `GET` | `/api/turmas` | Lista todas as turmas. |
+| `POST`| `/api/turmas` | Cria uma nova turma. |
+| `DELETE`| `/api/turmas/{id}`| Deleta uma turma. |
+| `POST`| `/api/turmas/{id}/alunos` | Adiciona um aluno a uma turma. |
+| `DELETE`| `/api/turmas/{id}/alunos/{mat}` | Remove um aluno de uma turma. |
+| `GET` | `/api/cursos` | Lista todos os cursos disponíveis. |
 
 ---
+<a name="-detalhamento-técnico-profundo"></a>
+## 🔬 Detalhamento Técnico Profundo
 
-<a name="roadmap"></a>
-## 📈 Roadmap
-
-| Status | Recurso                      | Versão Estimada |
-|--------|------------------------------|----------------:|
-| ✅     | CRUD Básico Aluno            |  v1.0           |
-| ✅     | Inicializador de Tabelas     |  v1.0 -> v1.1   |
-| ✅     | Autenticação e Perfis Usuário|  v1.1           |
-| ✅     | CRUD Turmas e Gerenc. Alunos |  v1.1           |
-| ✅     | Geração de Matrícula         |  v1.1           |
-| 🚧     | Camada de Serviço (Service)  |  v1.2           |
-| ⌛     | Testes Unitários (JUnit 5)   |  v1.3           |
-| 🚧     | Interface Gráfica (GUI)      |  v2.0           |
-
+* **Backend - Arquitetura em Camadas:** O projeto adota o padrão **Controller-Service-Repository**, garantindo uma clara separação de responsabilidades.
+    -   `Controller`: Recebe requisições HTTP e orquestra a resposta.
+    -   `Service`: Contém a lógica de negócio complexa (ex: geração de matrícula).
+    -   `Repository`: Interface do Spring Data JPA responsável pela comunicação com o banco de dados.
+* **Backend - Persistência com JPA:** A migração de JDBC para **Spring Data JPA** abstraiu toda a complexidade de escrita de SQL, gerenciamento de conexões e mapeamento de resultados. O uso de interfaces `JpaRepository` permite que o Spring crie as queries em tempo de execução, incluindo buscas customizadas como `findByMatricula` e `findByNomeContainingIgnoreCase`.
+* **Backend - Inicialização de Dados:** A estratégia final e robusta utiliza um script `data.sql` **idempotente** com `CREATE TABLE IF NOT EXISTS` e `INSERT IGNORE`, combinado com `ddl-auto: none` no `application.yml`. Isso garante que o banco de dados tenha a estrutura e os dados iniciais corretos em qualquer ambiente, sem apagar os dados existentes em execuções subsequentes.
+* **Frontend - Arquitetura de Componentes:** A interface foi construída em **React**, quebrando a UI em componentes reutilizáveis (`LoginForm`, `AlunoList`, `Sidebar`, etc.), cada um com seu próprio estado e lógica.
+* **Frontend - Gerenciamento de Estado:** O estado da aplicação (ex: qual usuário está logado, qual tela está visível) é gerenciado no componente pai (`App.jsx`) e distribuído para os componentes filhos através de **props**. Esse padrão, conhecido como **"Lifting State Up"**, centraliza o controle e facilita a comunicação entre componentes.
+* **Frontend - Efeitos e Data Fetching:** O "hook" `useEffect` é utilizado para disparar chamadas assíncronas à API (`fetch`) no momento em que os componentes são montados na tela, permitindo que a UI seja populada com dados vindos do backend.
 
 ---
+<a name="-versão-cli-legada-v10"></a>
+## 💾 Versão CLI Legada (v1.0)
 
-<a name="licença"></a>
+A versão original deste projeto, uma aplicação de console totalmente funcional, foi preservada e está disponível para consulta no **[Release v1.0-cli](https://github.com/MathCunha16/faculdade-crud/releases/tag/v1.0-cli)** do repositório.
+
+---
+<a name="-roadmap-futuro"></a>
+## 📈 Roadmap Futuro
+
+- [ ] **Segurança da API:** Implementar autenticação baseada em tokens (JWT) para proteger os endpoints.
+- [ ] **Testes:** Adicionar testes unitários (JUnit no backend, Vitest/RTL no frontend).
+- [ ] **Paginação:** Implementar paginação nas listas de alunos e turmas para melhor performance com grandes volumes de dados.
+- [ ] **Melhorias de UX:** Substituir `alert()`s por um sistema de notificações (toasts) mais elegante.
+- [ ] **Refatoração:** Mover lógicas de negócio adicionais dos controllers para a camada de Serviço.
+
+---
+<a name="-licença"></a>
 ## 📄 Licença
-
-MIT License – veja o arquivo `LICENSE` para detalhes (presumindo que exista um arquivo LICENSE).
-
----
-
-<a name="detalhamento-técnico-profundo"></a>
-# 🔧 Detalhamento Técnico Profundo
-
-## 🛠️ Gerenciamento de Conexões (`DB.java`)
-A classe `DB` centraliza a obtenção de conexões com o banco de dados MySQL.
-```java
-public class DB {
-    public static Connection getConnection() {
-        // Carrega propriedades de db.properties
-        // Retorna uma NOVA conexão a cada chamada
-        Properties props = loadProperties();
-        String url = props.getProperty("dburl") + "?allowPublicKeyRetrieval=true";
-        return DriverManager.getConnection(url, props); //
-    }
-    public static void closeConnection(Connection conn) {
-        // Fecha a conexão fornecida
-        if (conn != null) conn.close(); //
-    }
-    // private static Properties loadProperties() {…}
-}
-```
-**Nota:** Cada operação DAO gerencia o ciclo de vida da sua conexão usando try-with-resources, o que é uma boa prática.
-
-## 🗃️ Inicialização de Tabelas (`InicializadorBanco.java`)
-A classe `InicializadorBanco` é executada no início da aplicação para garantir que o schema do banco de dados esteja configurado.
-
-Cria as seguintes tabelas se não existirem:
-* **`curso`**: Armazena os cursos oferecidos.
-    ```sql
-    CREATE TABLE IF NOT EXISTS curso (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        nome VARCHAR(100) NOT NULL UNIQUE
-    );
-    -- Populada com uma lista de cursos pré-definidos.
-    ```
-* **`aluno`**: Armazena dados dos alunos.
-    ```sql
-    CREATE TABLE IF NOT EXISTS aluno (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        matricula INT UNIQUE NOT NULL,
-        nome VARCHAR(255) NOT NULL,
-        telefone VARCHAR(25),
-        data_de_nascimento DATE NOT NULL,
-        id_curso INT NOT NULL, -- Chave estrangeira para a tabela curso
-        CPF VARCHAR(15) NOT NULL,
-        FOREIGN KEY (id_curso) REFERENCES curso(id)
-    );
-    ```
-* **`controle_matricula`**: Auxilia na geração sequencial de matrículas.
-    ```sql
-    CREATE TABLE IF NOT EXISTS controle_matricula (
-        ultima_matricula INT NOT NULL
-    );
-    -- Inicializada com um valor base para o ano corrente.
-    ```
-* **`turma`**: Armazena as turmas.
-    ```sql
-    CREATE TABLE IF NOT EXISTS turma (
-        id_turma INT AUTO_INCREMENT PRIMARY KEY,
-        nome_turma VARCHAR(100) NOT NULL,
-        turno VARCHAR(20) NOT NULL,
-        id_curso INT NOT NULL, -- Chave estrangeira para a tabela curso
-        alunos TEXT, -- Armazena "matricula:nome" dos alunos, separados por vírgula
-        FOREIGN KEY (id_curso) REFERENCES curso(id)
-    );
-    ```
-* **`usuarios`**: Armazena credenciais de acesso.
-    ```sql
-    CREATE TABLE IF NOT EXISTS usuarios (
-        id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(50) UNIQUE NOT NULL,
-        senha VARCHAR(255) NOT NULL,
-        tipo_usuario VARCHAR(25) CHECK (tipo_usuario IN ('aluno', 'adm')) NOT NULL,
-        aluno_matricula INT, -- Chave estrangeira para a tabela aluno (pode ser NULL para ADM)
-        FOREIGN KEY (aluno_matricula) REFERENCES aluno(matricula) ON DELETE SET NULL
-    );
-    -- Cria um usuário ADM padrão e usuários para alunos de exemplo.
-    ```
-
-## 📦 Entidades de Domínio (Pacote `model`)
-
-* **`Aluno.java`**:
-    ```java
-    public class Aluno {
-        private Integer id;
-        private Integer matricula;
-        private String nome;
-        private String telefone;
-        private LocalDate dataDeNascimento;
-        private Curso curso; // Referência ao objeto Curso
-        private String cpf;
-        // Construtores, getters/setters…
-    }
-    ```
-* **`Curso.java`**:
-    ```java
-    public class Curso {
-        private int id;
-        private String nome;
-        // Construtores, getters/setters…
-    }
-    ```
-* **`EnumCurso.java`**:
-    ```java
-    public enum EnumCurso {
-        ADS(1, "Tecnológia em Analíse e Desenvolvimento de Sistemas"),
-        // ... outros cursos com ID e nome amigável
-        MATEMATICA(28, "Matemática");
-        // getId(), getNomeAmigavel(), porId()…
-    }
-    ```
-* **`Turma.java`**:
-    ```java
-    public class Turma {
-        private int idTurma;
-        private String nomeTurma;
-        private String turno;
-        private int idCurso;
-        private List<String> alunos; // Lista de strings "matricula:nome"
-        // Construtor, getters/setters, métodos para conversão da lista de alunos…
-    }
-    ```
-* **`Usuario.java`**:
-    ```java
-    public class Usuario {
-        private Integer id;
-        private String email;
-        private String senha;
-        private TipoUsuario tipoUsuario;
-        private Integer matricula; // Matrícula do aluno, se tipoUsuario for ALUNO
-        // Construtores, getters/setters…
-    }
-    ```
-* **`TipoUsuario.java`**:
-    ```java
-    public enum TipoUsuario {
-        ADM, ALUNO;
-    }
-    ```
-* **`Validador.java`**: Contém métodos estáticos para validação (CPF, nome, telefone, email).
-
-## 📊 Padrão DAO (Pacote `dao`)
-
-* **`AlunoDAO.java`**:
-    ```java
-    public class AlunoDAO {
-        public void inserirDados(Aluno a);        // INSERT
-        public List<Aluno> listarAlunos();       // SELECT *
-        public Aluno buscarPorMatricula(int m);  // SELECT WHERE matricula
-        public List<Aluno> buscarPorNome(String n); // SELECT WHERE nome LIKE
-        public boolean atualizarNome(int m, String novoNome);
-        // … demais métodos: atualizarTelefone, atualizarDataNascimento, atualizarCurso, atualizarCpf
-        public Aluno removerAluno(int m);        // DELETE WHERE matricula
-        public int gerarNovaMatricula();         // Gera nova matrícula baseada no ano e tabela controle_matricula
-        public boolean existeCpf(String cpf);    // Verifica se CPF já existe
-        public boolean existeCpfParaOutroAluno(String cpf, int matriculaAtual); // Verifica CPF para outro aluno (edição)
-    }
-    ```
-* **`TurmaDAO.java`**:
-    ```java
-    public class TurmaDAO {
-        public void criarTurma(Turma turma);          // INSERT
-        public void adicionarAluno(int idTurma, int matriculaAluno); // UPDATE (adiciona aluno à string 'alunos')
-        public Turma buscarPorId(int idTurma);        // SELECT WHERE id_turma
-        public List<Turma> listarTurmas();           // SELECT *
-        public void removerAluno(int idTurma, String matricula); // UPDATE (remove aluno da string 'alunos')
-    }
-    ```
-* **`UsuarioDAO.java`**:
-    ```java
-    public class UsuarioDAO {
-        public Usuario autenticar(String email, String senha); // SELECT WHERE email AND senha
-        public void inserir(Usuario usuario);                  // INSERT
-        public Usuario buscarPorMatricula(int matricula);      // SELECT WHERE aluno_matricula
-        public boolean atualizarEmail(int idUsuario, String novoEmail);
-        public boolean atualizarSenha(int idUsuario, String novaSenha);
-    }
-    ```
-
-## 🖥️ Menu e Fluxo (`FaculdadeMain.java` e `Util.java`)
-* **`FaculdadeMain.java`**:
-    * Controla o fluxo principal da aplicação.
-    * Apresenta o menu inicial (`LOGAR`, `REGISTRAR`, `SAIR`).
-    * Após login, direciona para menus específicos de ADM ou ALUNO.
-    * Interage com as classes DAO para executar as operações.
-    * Utiliza `Validador.java` para validar entradas do usuário.
-    * Trata exceções como `NumberFormatException`, `DateTimeParseException`, `DbException`.
-* **`Util.java`**:
-    * `Cores`: Classe interna para formatação de texto colorido no console.
-    * `escolherCurso()`: Método para facilitar a seleção de um curso a partir de `EnumCurso`.
-    * `converter()`: Converte um `EnumCurso` para um objeto `Curso`.
-
-
-## 🚀 Padrões de Projeto Utilizados (Identificados)
-
-| Padrão        | Aplicação                                  | Benefícios                                      |
-|---------------|--------------------------------------------|-------------------------------------------------|
-| **DAO** | `AlunoDAO`, `TurmaDAO`, `UsuarioDAO`       | Isola a lógica de persistência de dados.        |
-| **Singleton** | `DB` (como ponto central de acesso)        | Único ponto para obter novas conexões ao BD.    |
-| **Enum** | `EnumCurso`, `TipoUsuario`                 | Define tipos seguros e constantes.              |
-
----
-
-Este README foi atualizado para refletir a estrutura e funcionalidades atuais do projeto de gestão acadêmica. Bom desenvolvimento!
+Distribuído sob a Licença MIT.
