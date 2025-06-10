@@ -284,7 +284,7 @@ A versão original deste projeto, uma aplicação de console totalmente funciona
 ![Dashboard do ADM - Gerenciando uma Turma Específica](./docs/images/tela_ADM_gerenciando_turmas_especificas.png)
 
 ### 8. Dashboard do ADM - Criando Nova Turma
-![Dashboard do ADM - Criando Nova Turma](./docs/images/tela_adm_criando_nova_turma.png).
+![Dashboard do ADM - Criando Nova Turma](./docs/images/tela_adm_criando_nova_turma.png)
 
 </div>
 
