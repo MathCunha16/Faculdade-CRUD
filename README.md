@@ -23,7 +23,7 @@
 | :--- | :--- | :--- |
 | [Estrutura Monorepo](#-estrutura-do-projeto) | [Como Executar](#-configuração-e-execução) | [Credenciais Padrão](#-credenciais-de-acesso) |
 | [Fluxo da Aplicação](#-fluxo-da-aplicação) | [Endpoints da API](#-endpoints-da-api) | [Detalhamento Técnico](#-detalhamento-técnico-profundo) |
-| [Versão CLI Legada](#-versão-cli-legada-v10) | [Roadmap Futuro](#-roadmap-futuro) | [Licença](#-licença) |
+| [Versão CLI Legada](#-versão-cli-legada-v10) | [Roadmap Futuro](#-roadmap-futuro) | [Fotos do Projeto](#-fotos-do-projeto) |
 
 ---
 
@@ -90,15 +90,15 @@ O projeto adota uma arquitetura **monorepo**, com o código do backend e do fron
 ```
 FaculdadeCRUD_ProjetoFinal/
 ├── .git/
-├── .gitignore          # 📜 Arquivo de ignore unificado para ambos os projetos.
-├── backend/            # ☕ Projeto Backend (Spring Boot API)
+├── .gitignore         # 📜 Arquivo de ignore unificado para ambos os projetos.
+├── backend/           # ☕ Projeto Backend (Spring Boot API)
 │   ├── src/
 │   └── pom.xml
-├── frontend/           # ⚛️ Projeto Frontend (React + Vite)
+├── frontend/          # ⚛️ Projeto Frontend (React + Vite)
 │   ├── public/
 │   ├── src/
 │   └── package.json
-└── README.md           # 📍 Você está aqui!
+└── README.md          # 📍 Você está aqui!
 ```
 ---
 <a name="-configuração-e-execução"></a>
@@ -255,6 +255,38 @@ A versão original deste projeto, uma aplicação de console totalmente funciona
 - [ ] **Paginação:** Implementar paginação nas listas de alunos e turmas para melhor performance com grandes volumes de dados.
 - [ ] **Melhorias de UX:** Substituir `alert()`s por um sistema de notificações (toasts) mais elegante.
 - [ ] **Refatoração:** Mover lógicas de negócio adicionais dos controllers para a camada de Serviço.
+
+---
+<a name="-fotos-do-projeto"></a>
+## 📸 Fotos do Projeto
+
+<div align="center">
+
+### 1. Tela de Login
+![Tela de Login](./docs/images/tela_login.png)
+
+### 2. Tela de Registro de Aluno
+![Tela de Registro de Aluno](./docs/images/tela_registro.png)
+
+### 3. Dashboard do Aluno
+![Dashboard do Aluno](./docs/images/tela_aluno.png)
+
+### 4. Dashboard do ADM - Listando Alunos
+![Dashboard do ADM - Listando Alunos](./docs/images/tela_ADM_listar_alunos.png)
+
+### 5. Dashboard do ADM - Cadastrando Novo Aluno
+![Dashboard do ADM - Cadastrando Novo Aluno](./docs/images/tela_ADM_cadastrar_aluno.png)
+
+### 6. Dashboard do ADM - Gerenciando Turmas
+![Dashboard do ADM - Gerenciando Turmas](./docs/images/tela_ADM_gerenciar_turma.png)
+
+### 7. Dashboard do ADM - Gerenciando uma Turma Específica
+![Dashboard do ADM - Gerenciando uma Turma Específica](./docs/images/tela_ADM_gerenciando_turmas_especificas.png)
+
+### 8. Dashboard do ADM - Criando Nova Turma
+![Dashboard do ADM - Criando Nova Turma](./docs/images/tela_adm_criando_nova_turma.png).
+
+</div>
 
 ---
 <a name="-licença"></a>
