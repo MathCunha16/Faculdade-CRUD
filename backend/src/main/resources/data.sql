@@ -47,8 +47,9 @@ CREATE TABLE IF NOT EXISTS `turma` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `controle_matricula` (
-  `ultima_matricula` int NOT NULL,
-  PRIMARY KEY (`ultima_matricula`)
+  `id` INT NOT NULL,
+  `ultima_matricula` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -95,5 +96,7 @@ INSERT IGNORE INTO `turma` (`id_turma`, `nome_turma`, `turno`, `id_curso`, `alun
 INSERT IGNORE INTO `turma` (`id_turma`, `nome_turma`, `turno`, `id_curso`, `alunos`) VALUES (2, 'Gestão de Pessoas 2025 - Tarde', 'TARDE', 15, '20250002:Gabirel Bortoleto da Silva');
 INSERT IGNORE INTO `turma` (`id_turma`, `nome_turma`, `turno`, `id_curso`, `alunos`) VALUES (3, 'Projetos Integrados 2025', 'MANHA', 5, '20250001:Silvio Vidal de Miranda Junior,20250002:Gabirel Bortoleto da Silva');
 
-DELETE FROM `controle_matricula`;
-INSERT IGNORE INTO `controle_matricula` (`ultima_matricula`) VALUES (20250002);
+-- Insere o controle de matrícula SOMENTE se a tabela estiver vazia
+INSERT INTO controle_matricula (id, ultima_matricula)
+SELECT 1, '20250002'
+WHERE NOT EXISTS (SELECT 1 FROM controle_matricula WHERE id = 1);
