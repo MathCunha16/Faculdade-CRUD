@@ -1,0 +1,37 @@
+# Aqui é definido todos os nossos contêineres, que são chamados de "serviços"
+services:
+  # Serviço do Banco de Dados
+  db:
+    image: mysql:8.0
+    container_name: mysql-db-compose
+    environment:
+      MYSQL_ROOT_PASSWORD: Developer123
+      MYSQL_DATABASE: faculdade
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Serviço do Backend (API)
+  backend:
+    build: ./backend  # Constrói a imagem a partir do Dockerfile na pasta ./backend
+    container_name: backend-api-compose
+    depends_on:
+      - db          # Diz ao Compose para esperar o 'db' estar pronto antes de iniciar o 'backend'
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/faculdade?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Developer123
+
+  # Serviço do Frontend (UI)
+  frontend:
+    build: ./frontend # Constrói a imagem a partir do Dockerfile na pasta ./frontend
+    container_name: frontend-ui-compose
+    ports:
+      - "3000:80"
+
+# Define um "volume" para persistir os dados do banco de dados
+volumes:
+  mysql_data:

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/faculdade?useSSL=false
-    username: Developer
-    password: 123
+    url: jdbc:mysql://127.0.0.1:3306/faculdade?useSSL=false
+    username: root
+    password: Developer123
   
   jpa:
     hibernate:
