@@ -1,4 +1,18 @@
 <div align="center">
+  <p>
+    <strong>Idiomas:</strong>
+    <a href="README.md">🇧🇷 Português</a>
+    &nbsp;|&nbsp;
+    <a href="README.en.md">🇺🇸 English</a>
+  </p>
+</div>
+
+---
+
+<div align="center">
+
+
+<div align="center">
 
 # 🎓 Sistema de Gestão Acadêmica v2.0 🚀
 
