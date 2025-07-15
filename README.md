@@ -11,9 +11,6 @@
 
 <div align="center">
 
-
-<div align="center">
-
 # 🎓 Sistema de Gestão Acadêmica v2.0 🚀
 
 ### A Evolução de uma Aplicação CLI para uma Solução Full-Stack Moderna
