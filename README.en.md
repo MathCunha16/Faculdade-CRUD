@@ -8,17 +8,6 @@
 </div>
 
 ---
-
-<div align="center">
-
-# 🎓 Academic Management System v2.0 🚀
-
-### The Evolution from a CLI Application to a Modern Full-Stack Solution
-
-</div>
-
-... (resto do seu README em inglês) ...
-
 <div align="center">
 
 # 🎓 Academic Management System v2.0 🚀
