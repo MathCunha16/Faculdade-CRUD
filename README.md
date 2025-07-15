@@ -20,14 +20,13 @@
 
 </div>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Java-17%2B-blue?style=for-the-badge&logo=openjdk" alt="Java 17+">
-  <img src="https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring" alt="Spring Boot 3.x">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react" alt="React 18">
-  <img src="https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite" alt="Vite">
-  <img src="https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql" alt="MySQL 8.x">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License MIT">
-</p>
+![Java 17+](https://img.shields.io/badge/Java-17%2B-blue?style=for-the-badge&logo=openjdk) 
+![Spring Boot 3.x](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring) 
+![React 18](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react) 
+![Vite 5.x](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite) 
+![MySQL 8.x](https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql) 
+![Docker 28.2.2](https://img.shields.io/badge/Docker-28.2.2-blue?style=for-the-badge&logo=docker) 
+![License MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ---
 
@@ -46,7 +45,7 @@
 
 O **UniEsquina v2.0** representa a completa modernização e reengenharia de um sistema de gestão acadêmica, transformando uma robusta aplicação de console (CLI) em uma solução **Full-Stack** dinâmica e interativa. O projeto foi meticulosamente refatorado para adotar as melhores práticas do mercado, com um backend poderoso em **Spring Boot** e um frontend reativo construído com **React**.
 
-Esta nova versão não apenas replica, mas expande as funcionalidades originais, oferecendo uma experiência de usuário rica através de interfaces web dedicadas para os perfis de **Administrador** e **Aluno**, com um sistema de autenticação e registro.
+Esta nova versão não apenas replica, mas expande as funcionalidades originais, oferecendo uma experiência de usuário rica através de interfaces web dedicadas para os perfis de **Administrador** e **Aluno**, com um sistema de autenticação e registro. E agora, totalmente containerizada com **Docker**, permitindo que toda a aplicação seja executada com um único comando.
 
 <a name="-funcionalidades"></a>
 ## ✨ Funcionalidades
@@ -57,17 +56,17 @@ O centro de controle total do sistema, acessível apenas por usuários ADM.
 - 🔐 **Login Seguro:** Acesso a uma área restrita.
 - 📊 **Dashboard Modular:** Interface com barra lateral de navegação para acesso rápido a todas as funcionalidades.
 - 👨‍🎓 **Gestão de Alunos (CRUD Completo):**
-    - 📋 **Listar** todos os alunos com busca e paginação (futura).
-    - ✅ **Cadastrar** novos alunos com validação de dados em tempo real e seleção de cursos buscados diretamente da API.
-    - ✏️ **Editar** informações completas de alunos já cadastrados.
-    - 🗑️ **Deletar** alunos do sistema (com remoção em cascata das turmas).
+    - 📋 **Listar** todos os alunos com busca e paginação (futura).
+    - ✅ **Cadastrar** novos alunos com validação de dados em tempo real e seleção de cursos buscados diretamente da API.
+    - ✏️ **Editar** informações completas de alunos já cadastrados.
+    - 🗑️ **Deletar** alunos do sistema (com remoção em cascata das turmas).
 - 🏫 **Gestão de Turmas (CRUD Completo):**
-    - 📄 **Listar** todas as turmas, seus cursos e quantidade de alunos.
-    - ✅ **Criar** novas turmas, associando-as a um curso existente.
-    - 🗑️ **Deletar** turmas.
-    - 🔎 **Gerenciar** uma turma específica, com funcionalidades para:
-        - ➕ **Adicionar** alunos existentes à turma através de uma busca por nome com autocomplete.
-        - ➖ **Remover** alunos da turma com um clique.
+    - 📄 **Listar** todas as turmas, seus cursos e quantidade de alunos.
+    - ✅ **Criar** novas turmas, associando-as a um curso existente.
+    - 🗑️ **Deletar** turmas.
+    - 🔎 **Gerenciar** uma turma específica, com funcionalidades para:
+        - ➕ **Adicionar** alunos existentes à turma através de uma busca por nome com autocomplete.
+        - ➖ **Remover** alunos da turma com um clique.
 
 ### 🧑‍🎓 **Portal do Aluno**
 Uma área pessoal e informativa para cada aluno matriculado.
@@ -93,6 +92,7 @@ Uma área pessoal e informativa para cada aluno matriculado.
 | | **JavaScript (ES6+)**| Linguagem principal para a lógica do frontend. |
 | | **CSS3** | Estilização dos componentes para uma interface moderna. |
 | 🗃️ **Banco de Dados**| **MySQL 8.x** | Sistema de Gerenciamento de Banco de Dados Relacional. |
+| 🐳 **DevOps**| **Docker & Docker Compose**| Containerização da aplicação para portabilidade e deploy simplificado. |
 | 🔄 **Controle de Versão**| **Git & GitHub** | Gerenciamento de código fonte e versionamento. |
 
 ---
@@ -104,30 +104,106 @@ O projeto adota uma arquitetura **monorepo**, com o código do backend e do fron
 ```
 FaculdadeCRUD_ProjetoFinal/
 ├── .git/
-├── .gitignore         # 📜 Arquivo de ignore unificado para ambos os projetos.
-├── backend/           # ☕ Projeto Backend (Spring Boot API)
+├── .gitignore
+├── backend/            # ☕ Projeto Backend (Spring Boot API)
 │   ├── src/
-│   └── pom.xml
-├── frontend/          # ⚛️ Projeto Frontend (React + Vite)
+│   ├── pom.xml
+│   └── Dockerfile
+├── frontend/           # ⚛️ Projeto Frontend (React + Vite)
 │   ├── public/
 │   ├── src/
-│   └── package.json
-└── README.md          # 📍 Você está aqui!
+│   ├── package.json
+│   └── Dockerfile
+├── docker-compose.yml  # 🐳 Arquivo de orquestração dos contêineres
+└── README.md           # 📍 Você está aqui!
 ```
 ---
 <a name="-configuração-e-execução"></a>
 ## 🚀 Configuração e Execução
 
-Siga os passos abaixo para executar a aplicação completa na sua máquina local.
+Existem duas formas principais de executar este projeto. A forma com Docker é a mais recomendada pela sua simplicidade e portabilidade.
 
-### Pré-requisitos
+### **Opção 1: Executando com Docker (Recomendado)**
+Esta é a maneira mais simples de subir toda a aplicação (frontend, backend e banco de dados) com um único comando.
+
+**Pré-requisitos:**
+- **Docker:** [Instalado](https://docs.docker.com/engine/install/) e rodando.
+- **Docker Compose:** (Geralmente já vem com o Docker Desktop).
+- **Git:** Para clonar o repositório.
+
+**Passos:**
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/MathCunha16/faculdade-crud.git
+    cd faculdade-crud
+    ```
+2.  **Execute o Docker Compose:**
+    Na raiz do projeto (onde está o arquivo `docker-compose.yml`), rode:
+    ```bash
+    docker compose up
+    ```
+    * *Dica: adicione a flag `-d` para rodar em modo detached (segundo plano) e `--build` se precisar forçar a reconstrução das imagens após uma mudança no código.*
+3.  **Acesse a aplicação:**
+    -   O frontend estará disponível em **[http://localhost:3000](http://localhost:3000)**.
+    -   A API do backend estará em `http://localhost:8080`.
+
+4.  **Para parar tudo:**
+    ```bash
+    docker compose down
+    ```
+
+<details>
+<summary><b>Opção 2: Usando Imagens Prontas do Docker Hub (Alternativa Rápida)</b></summary>
+<br>
+Se você não quiser construir as imagens a partir do código-fonte, pode usar as versões que já estão publicadas no Docker Hub. Para isso, use este `docker-compose.yml` alternativo que usa a diretiva `image` em vez de `build`.
+
+```yaml
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db-compose
+    environment:
+      MYSQL_ROOT_PASSWORD: Developer123
+      MYSQL_DATABASE: faculdade
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    image: mathcunha16/faculdade-crud-backend:latest
+    container_name: backend-api-compose
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/faculdade?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Developer123
+
+  frontend:
+    image: mathcunha16/faculdade-crud-frontend:latest
+    container_name: frontend-ui-compose
+    ports:
+      - "3000:80"
+
+volumes:
+  mysql_data:
+```
+</details>
+
+### **Opção 3: Execução Manual (Ambiente Local)**
+Siga os passos abaixo se preferir configurar e rodar cada parte da aplicação manualmente.
+
+**Pré-requisitos**
 - **Java JDK:** Versão 17 ou superior.
 - **Maven:** Instalado e configurado no `PATH` do sistema.
 - **Node.js:** Versão 18 ou superior (inclui o `npm`).
 - **MySQL:** Servidor de banco de dados rodando (XAMPP, Docker, etc.).
-- **Git:** Para clonar o repositório.
 
-### 1. Backend (API Spring Boot)
+#### 1. Backend (API Spring Boot)
 1.  **Crie o Banco de Dados:** No seu cliente MySQL, execute:
     ```sql
     CREATE DATABASE IF NOT EXISTS faculdade;
@@ -144,27 +220,27 @@ Siga os passos abaixo para executar a aplicação completa na sua máquina local
     Ou, se preferir, importe o projeto em sua IDE (Eclipse, IntelliJ) como um "Existing Maven Project" e execute a classe principal `FaculdadeCrudApplication.java`.
 4.  O backend estará rodando em `http://localhost:8080`. A primeira execução criará e populará as tabelas automaticamente através do `data.sql`.
 
-### 2. Frontend (Interface React)
-1.  **Abra outro terminal**, separado do backend.
-2.  **Navegue até a pasta do frontend:**
-    ```bash
-    cd frontend
-    ```
-3.  **Instale as dependências** (só precisa fazer isso na primeira vez):
-    ```bash
-    npm install
-    ```
-4.  **Inicie o servidor de desenvolvimento do Vite:**
-    ```bash
-    npm run dev
-    ```
-5.  Abra seu navegador e acesse o endereço fornecido, que geralmente é `http://localhost:5173`.
+#### 2. Frontend (Interface React)
+1.  **Abra outro terminal**, separado do backend.
+2.  **Navegue até a pasta do frontend:**
+    ```bash
+    cd frontend
+    ```
+3.  **Instale as dependências** (só precisa fazer isso na primeira vez):
+    ```bash
+    npm install
+    ```
+4.  **Inicie o servidor de desenvolvimento do Vite:**
+    ```bash
+    npm run dev
+    ```
+5.  Abra seu navegador e acesse o endereço fornecido, que geralmente é `http://localhost:5173`.
 
 ---
 <a name="-credenciais-de-acesso"></a>
 ## 🔑 Credenciais de Acesso
 
-Use as seguintes credenciais padrão para testar os diferentes perfis de usuário. Elas são criadas automaticamente pelo `data.sql`.
+Use as seguintes credenciais padrão para testar os diferentes perfis de usuário. Elas são criadas automaticamente pelo `data.sql` (na execução manual) ou pelo volume do Docker.
 
 | Perfil | Email | Senha |
 | :--- | :--- | :--- |
@@ -180,40 +256,40 @@ O diagrama abaixo ilustra a arquitetura e o fluxo de comunicação da aplicaçã
 
 ```mermaid
 graph LR
-    %% 👤 Navegador do Usuário
-    subgraph "👤 Navegador do Usuário"
-        A[Usuário] --> B[Interface\nFrontend React];
-    end
+    %% 👤 Navegador do Usuário
+    subgraph "👤 Navegador do Usuário"
+        A[Usuário] --> B[Interface\nFrontend React];
+    end
 
-    %% ⚙️ Servidor da Aplicação
-    subgraph "⚙️ Servidor da Aplicação"
-        subgraph "☕ Backend - Spring Boot"
-            direction TB
-            C[API\nControllers] --> S[Service\nLayer] --> R[JPA\nRepositories];
-        end
-    end
+    %% ⚙️ Servidor da Aplicação
+    subgraph "⚙️ Servidor da Aplicação"
+        subgraph "☕ Backend - Spring Boot"
+            direction TB
+            C[API\nControllers] --> S[Service\nLayer] --> R[JPA\nRepositories];
+        end
+    end
 
-    %% 🗃️ Banco de Dados
-    subgraph "🗃️ Banco de Dados"
-        D[(MySQL)];
-    end
+    %% 🗃️ Banco de Dados
+    subgraph "🗃️ Banco de Dados"
+        D[(MySQL)];
+    end
 
-    %% Conexões
-    B -- "HTTP JSON" --> C;
-    R -- "SQL (JDBC)" --> D;
+    %% Conexões
+    B -- "HTTP JSON" --> C;
+    R -- "SQL (JDBC)" --> D;
 
-    %% Estilos personalizados
-    classDef frontend fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a;
-    classDef backendApi fill:#d1fae5,stroke:#065f46,stroke-width:2px,color:#065f46;
-    classDef backendService fill:#fef3c7,stroke:#92400e,stroke-width:2px,color:#78350f;
-    classDef backendRepo fill:#fee2e2,stroke:#991b1b,stroke-width:2px,color:#7f1d1d;
-    classDef db fill:#e5e7eb,stroke:#374151,stroke-width:2px,color:#111827;
+    %% Estilos personalizados
+    classDef frontend fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a;
+    classDef backendApi fill:#d1fae5,stroke:#065f46,stroke-width:2px,color:#065f46;
+    classDef backendService fill:#fef3c7,stroke:#92400e,stroke-width:2px,color:#78350f;
+    classDef backendRepo fill:#fee2e2,stroke:#991b1b,stroke-width:2px,color:#7f1d1d;
+    classDef db fill:#e5e7eb,stroke:#374151,stroke-width:2px,color:#111827;
 
-    class A,B frontend;
-    class C backendApi;
-    class S backendService;
-    class R backendRepo;
-    class D db;
+    class A,B frontend;
+    class C backendApi;
+    class S backendService;
+    class R backendRepo;
+    class D db;
 
 
 ```
@@ -245,9 +321,9 @@ A API REST do backend expõe os seguintes endpoints principais:
 ## 🔬 Detalhamento Técnico Profundo
 
 * **Backend - Arquitetura em Camadas:** O projeto adota o padrão **Controller-Service-Repository**, garantindo uma clara separação de responsabilidades.
-    -   `Controller`: Recebe requisições HTTP e orquestra a resposta.
-    -   `Service`: Contém a lógica de negócio complexa (ex: geração de matrícula).
-    -   `Repository`: Interface do Spring Data JPA responsável pela comunicação com o banco de dados.
+    -   `Controller`: Recebe requisições HTTP e orquestra a resposta.
+    -   `Service`: Contém a lógica de negócio complexa (ex: geração de matrícula).
+    -   `Repository`: Interface do Spring Data JPA responsável pela comunicação com o banco de dados.
 * **Backend - Persistência com JPA:** A migração de JDBC para **Spring Data JPA** abstraiu toda a complexidade de escrita de SQL, gerenciamento de conexões e mapeamento de resultados. O uso de interfaces `JpaRepository` permite que o Spring crie as queries em tempo de execução, incluindo buscas customizadas como `findByMatricula` e `findByNomeContainingIgnoreCase`.
 * **Backend - Inicialização de Dados:** A estratégia final e robusta utiliza um script `data.sql` **idempotente** com `CREATE TABLE IF NOT EXISTS` e `INSERT IGNORE`, combinado com `ddl-auto: none` no `application.yml`. Isso garante que o banco de dados tenha a estrutura e os dados iniciais corretos em qualquer ambiente, sem apagar os dados existentes em execuções subsequentes.
 * **Frontend - Arquitetura de Componentes:** A interface foi construída em **React**, quebrando a UI em componentes reutilizáveis (`LoginForm`, `AlunoList`, `Sidebar`, etc.), cada um com seu próprio estado e lógica.
