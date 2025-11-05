@@ -1,0 +1,10 @@
+spring:
+  sql:
+    init:
+      mode: never # Desabilita a execução de scripts SQL durante os testes
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
