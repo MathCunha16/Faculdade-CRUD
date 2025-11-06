@@ -30,3 +30,4 @@ public interface AlunoTurmaRepository extends JpaRepository<AlunoTurma, Integer>
     long countByTurmaIdAndStatus(Integer turmaId, StatusMatricula status);
 }
 
+

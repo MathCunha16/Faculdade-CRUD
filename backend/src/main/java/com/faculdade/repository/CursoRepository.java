@@ -18,3 +18,4 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
     boolean existsByNome(String nome);
 }
 
+

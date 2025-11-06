@@ -32,3 +32,4 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer> {
     List<Turma> findByCursoIdAndAnoLetivoAndSemestre(Integer cursoId, Integer anoLetivo, Integer semestre);
 }
 
+

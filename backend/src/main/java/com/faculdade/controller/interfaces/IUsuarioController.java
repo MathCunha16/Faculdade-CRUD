@@ -33,3 +33,4 @@ public interface IUsuarioController {
     ResponseEntity<UsuarioResponse> atualizarStatus(@PathVariable Integer id, @RequestBody Boolean ativo);
 }
 
+

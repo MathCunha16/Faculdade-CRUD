@@ -29,3 +29,4 @@ public interface DisciplinaMapper {
     void updateEntityFromRequest(DisciplinaRequest request, @MappingTarget Disciplina disciplina);
 }
 
+

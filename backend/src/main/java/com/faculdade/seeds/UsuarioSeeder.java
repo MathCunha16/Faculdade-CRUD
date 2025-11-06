@@ -9,11 +9,12 @@ import com.faculdade.repository.ProfessorRepository;
 import com.faculdade.repository.UsuarioRepository;
 import com.faculdade.service.UsuarioService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Order(4)
 @Component
-@Profile("dev")
 public class UsuarioSeeder implements CommandLineRunner {
 
     private final UsuarioRepository usuarioRepository;
@@ -31,58 +32,43 @@ public class UsuarioSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Seed ADM User
-        if (usuarioRepository.findByEmail("admin@faculdade.com").isEmpty()) {
+        if (usuarioRepository.findByEmail("matheuscunhaprado@gmail.com").isEmpty()) {
             usuarioService.create(new UsuarioRequest(
-                    "admin@faculdade.com",
-                    "admin123",
+                    "matheuscunhaprado@gmail.com",
+                    "Cunha123",
                     TipoUsuario.ADM,
                     null,
                     null
             ));
-            System.out.println("Seeded ADM user: admin@faculdade.com");
+            System.out.println("Seeded ADM user: matheuscunhaprado@gmail.com");
         }
 
-        // Seed Professor User (for Professor with ID 2 from V7 migration)
-        if (usuarioRepository.findByEmail("ana.santos@faculdade.edu.br").isEmpty()) {
-            Professor professor = professorRepository.findById(2)
-                    .orElseGet(() -> {
-                        // Fallback if professor 2 doesn't exist (e.g., if V7 was modified/removed)
-                        // In a real scenario, you might create the professor here or throw an error.
-                        System.err.println("Professor with ID 2 not found for seeding. Skipping professor user creation.");
-                        return null;
-                    });
-
-            if (professor != null) {
+        // Seed Professor Users
+        professorRepository.findAll().forEach(professor -> {
+            if (usuarioRepository.findByEmail(professor.getEmail()).isEmpty()) {
                 usuarioService.create(new UsuarioRequest(
-                        "ana.santos@faculdade.edu.br",
-                        "prof123",
+                        professor.getEmail(),
+                        "Prof123",
                         TipoUsuario.PROFESSOR,
                         null,
                         professor.getId()
                 ));
-                System.out.println("Seeded PROFESSOR user: ana.santos@faculdade.edu.br");
+                System.out.println("Seeded PROFESSOR user: " + professor.getEmail());
             }
-        }
+        });
 
-        // Seed Aluno User (for Aluno with ID 1 from V7 migration)
-        if (usuarioRepository.findByEmail("silvio.vidal@aluno.faculdade.edu.br").isEmpty()) {
-            Aluno aluno = alunoRepository.findById(1)
-                    .orElseGet(() -> {
-                        // Fallback if aluno 1 doesn't exist
-                        System.err.println("Aluno with ID 1 not found for seeding. Skipping aluno user creation.");
-                        return null;
-                    });
-
-            if (aluno != null) {
-                usuarioService.create(new UsuarioRequest(
-                        "silvio.vidal@aluno.faculdade.edu.br",
-                        "aluno123",
-                        TipoUsuario.ALUNO,
-                        aluno.getId(),
-                        null
-                ));
-                System.out.println("Seeded ALUNO user: silvio.vidal@aluno.faculdade.edu.br");
-            }
+            // Seed Aluno Users
+            alunoRepository.findAll().forEach(aluno -> {
+                if (usuarioRepository.findByEmail(aluno.getEmail()).isEmpty()) {
+                    usuarioService.create(new UsuarioRequest(
+                            aluno.getEmail(),
+                            "Aluno123",
+                            TipoUsuario.ALUNO,
+                            aluno.getId(),
+                            null
+                    ));
+                    System.out.println("Seeded ALUNO user: " + aluno.getEmail());
+                }
+            });
         }
     }
-}

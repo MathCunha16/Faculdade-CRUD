@@ -27,3 +27,4 @@ public interface ProfessorMapper {
     void updateEntityFromRequest(UpdateProfessorRequest request, @MappingTarget Professor professor);
 }
 
+

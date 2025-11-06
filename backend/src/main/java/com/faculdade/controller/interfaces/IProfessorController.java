@@ -41,3 +41,4 @@ public interface IProfessorController {
     ResponseEntity<Void> delete(@PathVariable Integer id);
 }
 
+

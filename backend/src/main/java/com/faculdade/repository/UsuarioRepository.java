@@ -32,3 +32,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByProfessorId(Integer professorId);
 }
 
+

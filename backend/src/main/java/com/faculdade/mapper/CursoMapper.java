@@ -24,3 +24,4 @@ public interface CursoMapper {
     void updateEntityFromRequest(CursoRequest request, @MappingTarget Curso curso);
 }
 
+

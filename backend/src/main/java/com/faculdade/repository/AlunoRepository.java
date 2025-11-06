@@ -30,3 +30,4 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
     List<Aluno> findByCursoIdAndStatus(Integer cursoId, StatusAluno status);
 }
 
+

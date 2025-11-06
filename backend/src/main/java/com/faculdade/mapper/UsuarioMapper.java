@@ -38,3 +38,4 @@ public interface UsuarioMapper {
     void updateEntityFromRequest(UsuarioRequest request, @MappingTarget Usuario usuario);
 }
 
+

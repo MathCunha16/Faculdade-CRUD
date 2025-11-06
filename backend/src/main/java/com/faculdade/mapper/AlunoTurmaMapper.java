@@ -38,3 +38,4 @@ public interface AlunoTurmaMapper {
     void updateEntityFromRequest(UpdateAlunoTurmaRequest request, @MappingTarget AlunoTurma alunoTurma);
 }
 
+

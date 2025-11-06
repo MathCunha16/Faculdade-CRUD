@@ -24,3 +24,4 @@ public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
     List<Professor> findByEspecialidadeContainingIgnoreCase(String especialidade);
 }
 
+

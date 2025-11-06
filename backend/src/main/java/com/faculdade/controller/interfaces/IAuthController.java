@@ -25,3 +25,4 @@ public interface IAuthController {
     ResponseEntity<RegistroResponse> registrar(@RequestBody RegistroRequest request);
 }
 
+
