@@ -33,7 +33,7 @@ public class RegistroController {
         }
 
         // 2 Verifica se a matricula ja não foi registrada por outro usuario
-        if (usuarioRepository.existsByMatricula(registroRequest.getMatricula())) {
+        if (usuarioRepository.existsByAlunoId(aluno.getId())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta matrícula já possui um usuário registrado.");
         }
         
@@ -46,8 +46,9 @@ public class RegistroController {
         Usuario novoUsuario = new Usuario();
         novoUsuario.setEmail(registroRequest.getEmail());
         novoUsuario.setSenha(registroRequest.getSenha());
-        novoUsuario.setMatricula(registroRequest.getMatricula());
+        novoUsuario.setAlunoId(aluno.getId());
         novoUsuario.setTipoUsuario(TipoUsuario.ALUNO);
+        novoUsuario.setAtivo(true);
 
         usuarioRepository.save(novoUsuario);
 

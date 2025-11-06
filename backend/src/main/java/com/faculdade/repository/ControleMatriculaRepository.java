@@ -3,10 +3,12 @@ package com.faculdade.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.faculdade.model.ControleMatricula;
 
+@Repository
 public interface ControleMatriculaRepository extends JpaRepository<ControleMatricula, Integer> {
 
     // JPQL para buscar a primeira (e única) entrada
