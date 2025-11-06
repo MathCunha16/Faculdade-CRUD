@@ -8,7 +8,6 @@ CREATE TABLE `professor` (
                              `status` ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
                              `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                              `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                             `deleted_at` TIMESTAMP NULL DEFAULT NULL,
                              PRIMARY KEY (`id`),
                              UNIQUE KEY `UK_professor_cpf` (`cpf`),
                              UNIQUE KEY `UK_professor_email` (`email`)

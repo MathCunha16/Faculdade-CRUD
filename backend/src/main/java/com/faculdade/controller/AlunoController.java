@@ -1,118 +1,66 @@
 package com.faculdade.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.faculdade.controller.interfaces.IAlunoController;
+import com.faculdade.dto.request.AlunoRequest;
+import com.faculdade.dto.request.UpdateAlunoRequest;
+import com.faculdade.dto.response.AlunoResponse;
+import com.faculdade.service.AlunoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.faculdade.model.Aluno;
-import com.faculdade.model.Turma;
-import com.faculdade.repository.AlunoRepository;
-import com.faculdade.repository.TurmaRepository;
-import com.faculdade.service.AlunoService;
+import java.util.List;
 
-import jakarta.validation.Valid;
-
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/alunos")
-public class AlunoController {
+public class AlunoController implements IAlunoController {
 
-	@Autowired
-	private AlunoRepository alunoRepository;
+    private final AlunoService alunoService;
 
-	@Autowired
-	private AlunoService alunoService;
+    public AlunoController(AlunoService alunoService) {
+        this.alunoService = alunoService;
+    }
 
-	@Autowired
-	private TurmaRepository turmaRepository;
+    @Override
+    @GetMapping
+    public ResponseEntity<List<AlunoResponse>> findAll() {
+        List<AlunoResponse> alunos = alunoService.findAll();
+        return ResponseEntity.ok(alunos);
+    }
 
-	@GetMapping
-	public List<Aluno> listarTodosAlunos() {
-		return alunoRepository.findAll();
-	}
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<AlunoResponse> findById(@PathVariable Integer id) {
+        AlunoResponse aluno = alunoService.findById(id);
+        return ResponseEntity.ok(aluno);
+    }
 
-	@GetMapping("/{matricula}")
-	public ResponseEntity<Aluno> buscarPorMatricula(@PathVariable Integer matricula) {
-		Aluno aluno = alunoRepository.findByMatricula(matricula);
+    @Override
+    @GetMapping("/matricula/{matricula}")
+    public ResponseEntity<AlunoResponse> findByMatricula(@PathVariable Integer matricula) {
+        AlunoResponse aluno = alunoService.findByMatricula(matricula);
+        return ResponseEntity.ok(aluno);
+    }
 
-		if (aluno != null) {
-			return ResponseEntity.ok(aluno);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+    @Override
+    @PostMapping
+    public ResponseEntity<AlunoResponse> create(@RequestBody AlunoRequest request) {
+        AlunoResponse aluno = alunoService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
+    }
 
-	@PostMapping
-	public ResponseEntity<Aluno> criarAluno(@Valid @RequestBody Aluno novoAluno) {
-		Aluno alunoSalvo = alunoService.criarNovoAluno(novoAluno);
-		return ResponseEntity.status(HttpStatus.CREATED).body(alunoSalvo);
-	}
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<AlunoResponse> update(@PathVariable Integer id, @RequestBody UpdateAlunoRequest request) {
+        AlunoResponse aluno = alunoService.update(id, request);
+        return ResponseEntity.ok(aluno);
+    }
 
-	@PutMapping("/{matricula}")
-	public ResponseEntity<Aluno> atualizarAluno(@PathVariable Integer matricula,
-			@Valid @RequestBody Aluno dadosAtualizados) {
-		Aluno alunoExistente = alunoRepository.findByMatricula(matricula);
-
-		if (alunoExistente == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		dadosAtualizados.setId(alunoExistente.getId());
-
-		Aluno alunoSalvo = alunoRepository.save(dadosAtualizados);
-
-		return ResponseEntity.ok(alunoSalvo);
-	}
-
-	@DeleteMapping("/{matricula}")
-	public ResponseEntity<?> deletarAluno(@PathVariable Integer matricula) {
-		// 1 Busca o aluno que sera deletado
-		Aluno alunoParaDeletar = alunoRepository.findByMatricula(matricula);
-		if (alunoParaDeletar == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		// 2 Busca todas as turmas em que o aluno esta
-		String stringDeBusca = alunoParaDeletar.getMatricula() + ":" + alunoParaDeletar.getNome();
-		List<Turma> turmasDoAluno = turmaRepository.findByAlunosStrContaining(stringDeBusca);
-
-		// 3 Remove o aluno de cada uma dessas turmas
-		for (Turma turma : turmasDoAluno) {
-			List<String> alunosList = Arrays.asList(turma.getAlunosStr().split(","));
-
-			List<String> novaListaDeAlunos = alunosList.stream().filter(alunoStr -> !alunoStr.equals(stringDeBusca))
-					.collect(Collectors.toList());
-
-			String novaStringDeAlunos = String.join(",", novaListaDeAlunos);
-			turma.setAlunosStr(novaStringDeAlunos);
-
-			// Salva a turma atualizada
-			turmaRepository.save(turma);
-		}
-
-		// 4 Finalmente, deleta o aluno
-		alunoRepository.delete(alunoParaDeletar);
-
-		return ResponseEntity.noContent().build();
-	}
-
-	@GetMapping("/buscar")
-	public List<Aluno> buscarAlunosPorNome(@RequestParam("nome") String nome) {
-		return alunoRepository.findByNomeContainingIgnoreCase(nome);
-	}
-
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        alunoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

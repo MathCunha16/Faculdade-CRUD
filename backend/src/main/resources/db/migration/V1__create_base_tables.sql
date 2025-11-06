@@ -22,7 +22,6 @@ CREATE TABLE `aluno` (
                          `status` ENUM('ATIVO', 'TRANCADO', 'FORMADO', 'DESISTENTE') NOT NULL DEFAULT 'ATIVO',
                          `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                         `deleted_at` TIMESTAMP NULL DEFAULT NULL,
                          PRIMARY KEY (`id`),
                          UNIQUE KEY `UK_aluno_matricula` (`matricula`),
                          UNIQUE KEY `UK_aluno_cpf` (`cpf`),
