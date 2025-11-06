@@ -3,12 +3,18 @@ package com.faculdade.entity;
 import com.faculdade.entity.base.BaseEntity;
 import com.faculdade.entity.enums.TipoUsuario;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario", uniqueConstraints = {
     @UniqueConstraint(name = "UK_usuario_email", columnNames = "email")
 })
-public class Usuario extends BaseEntity {
+public class Usuario extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,5 +116,39 @@ public class Usuario extends BaseEntity {
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
-}
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + tipoUsuario.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return ativo;
+    }
+}

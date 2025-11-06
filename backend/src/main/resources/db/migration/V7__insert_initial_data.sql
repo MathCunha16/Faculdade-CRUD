@@ -55,6 +55,5 @@ INSERT INTO `usuario` (`id`, `email`, `senha`, `tipo_usuario`, `aluno_id`, `prof
                                                                                                          (3, 'bortoleto@aluno.faculdade.edu.br', 'Bortoleto123', 'ALUNO', 2, NULL, TRUE);
 
 INSERT INTO `usuario` (`id`, `email`, `senha`, `tipo_usuario`, `aluno_id`, `professor_id`, `ativo`) VALUES
-                                                                                                         (4, 'carlos.silva@faculdade.edu.br', 'Prof123', 'PROFESSOR', NULL, 1, TRUE),
                                                                                                          (5, 'ana.santos@faculdade.edu.br', 'Prof123', 'PROFESSOR', NULL, 2, TRUE),
                                                                                                          (6, 'roberto.lima@faculdade.edu.br', 'Prof123', 'PROFESSOR', NULL, 3, TRUE);
