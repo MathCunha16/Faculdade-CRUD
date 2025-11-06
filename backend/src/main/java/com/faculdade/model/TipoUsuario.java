@@ -2,5 +2,6 @@ package com.faculdade.model;
 
 public enum TipoUsuario {
 	ADM,
-    ALUNO
+    ALUNO,
+    PROFESSOR
 }

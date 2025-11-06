@@ -10,12 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
     private Integer id;
 
     private String email;
@@ -25,8 +24,13 @@ public class Usuario {
     @Column(name = "tipo_usuario")
     private TipoUsuario tipoUsuario;
 
-    @Column(name = "aluno_matricula")
-    private Integer matricula;
+    @Column(name = "aluno_id")
+    private Integer alunoId;
+
+    @Column(name = "professor_id")
+    private Integer professorId;
+
+    private Boolean ativo;
 
 	public Usuario() {
 
@@ -37,12 +41,14 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public Usuario(Integer id, String email, String senha, TipoUsuario tipoUsuario, Integer matricula) {
+	public Usuario(Integer id, String email, String senha, TipoUsuario tipoUsuario, Integer alunoId, Integer professorId, Boolean ativo) {
 		this.id = id;
 		this.email = email;
 		this.senha = senha;
 		this.tipoUsuario = tipoUsuario;
-		this.matricula = matricula;
+		this.alunoId = alunoId;
+		this.professorId = professorId;
+		this.ativo = ativo;
 	}
 
 	public Integer getId() {
@@ -77,12 +83,28 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 
-	public Integer getMatricula() {
-		return matricula;
+	public Integer getAlunoId() {
+		return alunoId;
 	}
 
-	public void setMatricula(Integer matricula) {
-		this.matricula = matricula;
+	public void setAlunoId(Integer alunoId) {
+		this.alunoId = alunoId;
+	}
+
+	public Integer getProfessorId() {
+		return professorId;
+	}
+
+	public void setProfessorId(Integer professorId) {
+		this.professorId = professorId;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 }

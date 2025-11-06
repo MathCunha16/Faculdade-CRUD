@@ -1,0 +1,21 @@
+CREATE TABLE `turma` (
+                         `id` INT NOT NULL AUTO_INCREMENT,
+                         `codigo_turma` VARCHAR(50) NOT NULL,
+                         `id_disciplina` INT NOT NULL,
+                         `id_professor` INT NOT NULL,
+                         `id_curso` INT NOT NULL,
+                         `ano_letivo` INT NOT NULL,
+                         `semestre` INT NOT NULL,
+                         `turno` ENUM('MANHA', 'TARDE', 'NOITE') NOT NULL,
+                         `vagas_totais` INT NOT NULL,
+                         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         PRIMARY KEY (`id`),
+                         UNIQUE KEY `UK_turma_codigo` (`codigo_turma`),
+                         KEY `FK_turma_disciplina` (`id_disciplina`),
+                         KEY `FK_turma_professor` (`id_professor`),
+                         KEY `FK_turma_curso` (`id_curso`),
+                         CONSTRAINT `FK_turma_disciplina` FOREIGN KEY (`id_disciplina`) REFERENCES `disciplina` (`id`),
+                         CONSTRAINT `FK_turma_professor` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id`),
+                         CONSTRAINT `FK_turma_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id`)
+) ENGINE=InnoDB;
